@@ -74,7 +74,7 @@ if (isset($_POST["year"])) {
 	}
 }
 if ($type == "add") {
-	$D["plan"] = array("year"=>"", "type"=>"0", "name"=>"", "description"=>"", "inuse"=>"1", "tag"=>array());
+	$D["plan"] = array("year"=>$G["schoolyear"], "type"=>"0", "name"=>"", "description"=>"", "inuse"=>"1", "tag"=>array());
 } else if ($type == "edit") {
 	$sth = $G["db"]->prepare("SELECT * FROM `plan` WHERE `id` = :id");
 	$sth->bindValue(":id", $planid);

@@ -10,3 +10,4 @@ $C["DBpass"] = 'pass';
 $C["DBname"] = 'dbname';
 
 $G["db"] = new PDO ('mysql:host='.$C["DBhost"].';dbname='.$C["DBname"].';charset=utf8', $C["DBuser"], $C["DBpass"]);
+$G["schoolyear"] = date("Y")-1911-(date("m")<=8);
