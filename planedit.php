@@ -42,7 +42,7 @@ if (isset($_POST["year"])) {
 	$tag = $_POST["tag"] ?? array();
 	foreach ($_POST["newtag"] as $newtag) {
 		$newtag = trim($newtag);
-		if ($newtag != "") {
+		if ($newtag != "" && !in_array($newtag, $tag)) {
 			$tag[] = $newtag;
 		}
 	}
