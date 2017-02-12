@@ -59,7 +59,7 @@ window.onload=function(){
 	})
 };
 function filter(){
-	var a,f,f0,f1,f2,year1,year2,plantype,tag;
+	var a,s,f,f0,f1,f2,year1,year2,plantype,tag;
 	a=Array.prototype;
 	f0=a.forEach;
 	f1=c=>c.l==tag.length&&a.every.call(tag,e=>c.i[e]);
@@ -67,6 +67,7 @@ function filter(){
 	console.log("filter");
 	year1 = +(filter_year1.value||0);
 	year2 = +(filter_year2.value||0xffff);
+	s=filter_name.value;
 	f = tagand.checked?f1:f2;
 	plantype = {};
 	f0.call(filter_plantype,(b,i)=>plantype[i]=b.checked);
@@ -79,7 +80,7 @@ function filter(){
 			plantype[c[1].i]&&
 			c[0].i>=year1&&
 			c[0].i<=year2&&
-			(!c[2].innerText||c[2].innerText.search(filter_name.value) > -1));
+			(!c[2].innerText||c[2].innerText.search(s) > -1));
 	})
 }
 </script>
