@@ -3,15 +3,20 @@
 require('config/config.php');
 require('func/plantype.php');
 require('func/tag.php');
-$admin = false;
-if (isset($_GET['admin'])) {
-	$admin = true;
-	$sth = $G["db"]->prepare('SELECT * FROM `plan` ORDER BY `year` DESC, `type` ASC, `name` ASC');
+$admin = isset($_GET['admin']);
+if ($admin) {
+	$sthyear = $G["db"]->prepare("SELECT MIN(`year`) AS 'minyear',MAX(`year`) AS 'maxyear' FROM `plan`");
+	$sth = $G["db"]->prepare("SELECT * FROM `plan` ORDER BY `year` DESC, `type` ASC, `name` ASC");
 } else {
-	$sth = $G["db"]->prepare('SELECT * FROM `plan` WHERE `inuse` = 1 ORDER BY `year` DESC, `type` ASC, `name` ASC');
+	$sthyear = $G["db"]->prepare("SELECT MIN(`year`) AS 'minyear',MAX(`year`) AS 'maxyear' FROM `plan` WHERE `inuse` = 1");
+	$sth = $G["db"]->prepare("SELECT * FROM `plan` WHERE `inuse` = 1 ORDER BY `year` DESC, `type` ASC, `name` ASC");
 }
+$sthyear->execute();
+$row = $sthyear->fetch(PDO::FETCH_ASSOC);
+$minyear = $row["minyear"];
+$maxyear = $row["maxyear"];
 $sth->execute();
-$planlist=$sth->fetchAll(PDO::FETCH_ASSOC);
+$planlist = $sth->fetchAll(PDO::FETCH_ASSOC);
 ?>
 <html lang="zh-Hant-TW">
 <head>
@@ -119,9 +124,9 @@ function filter(){
 	<div class="row">
 		<label class="col-sm-2 form-control-label">學年度</label>
 		<div class="col-sm-10 form-inline">
-			<input type="number" class="form-control" placeholder="起始" id="filter_year1" onkeyup="filter()" style="max-width: 45%;">
+			<input type="number" class="form-control" placeholder="起始" id="filter_year1" value="<?=$minyear?>" onkeyup="filter()" style="max-width: 45%;">
 			<span class="form-control-static">至</span>
-			<input type="number" class="form-control" placeholder="結束" id="filter_year2" onkeyup="filter()" style="max-width: 45%;">
+			<input type="number" class="form-control" placeholder="結束" id="filter_year2" value="<?=$maxyear?>" onkeyup="filter()" style="max-width: 45%;">
 		</div>
 	</div>
 	<div class="row">
