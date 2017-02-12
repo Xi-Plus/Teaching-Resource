@@ -42,24 +42,36 @@ if (isset($_POST["year"])) {
 	$tag = $_POST["tag"] ?? array();
 	foreach ($_POST["newtag"] as $newtag) {
 		$newtag = trim($newtag);
+		$newtag = preg_replace("/[[:cntrl:]]/", "", $newtag);
 		if ($newtag != "" && !in_array($newtag, $tag)) {
 			$tag[] = $newtag;
 		}
 	}
-	$sth->bindValue(":year", $_POST["year"]);
-	$sth->bindValue(":type", $_POST["type"]);
-	$sth->bindValue(":name", $_POST["name"]);
-	$sth->bindValue(":description", $_POST["description"]);
-	$sth->bindValue(":tag", json_encode($tag));
-	$sth->bindValue(":inuse", $_POST["inuse"]);
-	$sth->bindValue(":id", $planid);
-	$sth->execute();
+	$_POST["name"] = trim($_POST["name"]);
+	$_POST["name"] = preg_replace("/[[:cntrl:]]/", "", $_POST["name"]);
+	if ($_POST["name"] == "") {
 	?>
-	<div class="alert alert-success alert-dismissible" role="alert">
+	<div class="alert alert-danger alert-dismissible" role="alert">
 		<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-		<?=$_POST["name"]?> <?=$typename?>成功，<a href="<?=$C["path"]?>/plan/<?=$planid?>/" target="_blank">查看</a>
+		標題為空，沒有進行任何動作
 	</div>
 	<?php
+	} else {
+		$sth->bindValue(":year", $_POST["year"]);
+		$sth->bindValue(":type", $_POST["type"]);
+		$sth->bindValue(":name", $_POST["name"]);
+		$sth->bindValue(":description", $_POST["description"]);
+		$sth->bindValue(":tag", json_encode($tag));
+		$sth->bindValue(":inuse", $_POST["inuse"]);
+		$sth->bindValue(":id", $planid);
+		$sth->execute();
+		?>
+		<div class="alert alert-success alert-dismissible" role="alert">
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			<?=$_POST["name"]?> <?=$typename?>成功，<a href="<?=$C["path"]?>/plan/<?=$planid?>/" target="_blank">查看</a>
+		</div>
+		<?php
+	}
 }
 if ($type == "add") {
 	$D["plan"] = array("year"=>"", "type"=>"0", "name"=>"", "description"=>"", "inuse"=>"1", "tag"=>array());
