@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <?php
 require('config/config.php');
-$G["db"] = new PDO ('mysql:host='.$cfgDBhost.';dbname='.$cfgDBname.';charset=utf8', $cfgDBuser, $cfgDBpass);
 $sth = $G["db"]->prepare("SELECT * FROM `plan` WHERE `id` = :id");
 $sth->bindValue(':id', $_GET['id']);
 $sth->execute();
@@ -41,8 +40,8 @@ require("header.php");
 			<tr><td>說明</td><td><?=$plan['description']?></td></tr>
 			<tr><td>標籤</td><td><?php
 					$plan['tag'] = json_decode($plan['tag'], true);
-					foreach ($plan['tag'] as $tag) {
-						echo "<mark>$tag</mark> ";
+					foreach ($plan['tag'] as $key => $tag) {
+						echo ($key?"、":"")."<mark>$tag</mark>";
 					}
 				?></td></tr>
 			<tr><td>附件</td><?php
