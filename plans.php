@@ -41,75 +41,46 @@ function notag(){
 		filter_tag[i].checked = false;
 	}
 }
+window.onload=function(){
+	var f,plantype,tag;
+	f=Array.prototype.forEach;
+	console.log("init");
+	plantype = {};
+	f.call(filter_plantype,(b,i)=>plantype[b.value]=i);
+	tag = {};
+	f.call(filter_tag,(b,i)=>tag[b.value]=i);
+	f.call(plantable.children,b=>{
+		c=b.children;
+		c[0].i=+c[0].innerText;
+		c[1].i=plantype[c[1].innerText];
+		c[3].i={};
+		c[3].l=c[3].children.length;
+		f.call(c[3].children,d=>c[3].i[tag[d.innerText]]=!0)
+	})
+};
 function filter(){
+	var a,f,f0,f1,f2,year1,year2,plantype,tag;
+	a=Array.prototype;
+	f0=a.forEach;
+	f1=c=>c.l==tag.length&&a.every.call(tag,e=>c.i[e]);
+	f2=c=>a.some.call(tag,e=>c.i[e]);
 	console.log("filter");
-	var year1 = parseInt(filter_year1.value);
-	var year2 = parseInt(filter_year2.value);
-	for (var i = 0; i < plantable.children.length; i++) {
-		plantable.children[i].hidden = false;
-	}
-	if (!isNaN(year1)) {
-		for (var i = 0; i < plantable.children.length; i++) {
-			if (parseInt(plantable.children[i].children[0].innerText) < year1) {
-				plantable.children[i].hidden = true;
-			}
-		}
-	}
-	if (!isNaN(year2)) {
-		for (var i = 0; i < plantable.children.length; i++) {
-			if (parseInt(plantable.children[i].children[0].innerText) > year2) {
-				plantable.children[i].hidden = true;
-			}
-		}
-	}
-	var plantype = [];
-	for (var i = 0; i < filter_plantype.length; i++) {
-		plantype[filter_plantype[i].value] = filter_plantype[i].checked;
-	}
-	for (var i = 0; i < plantable.children.length; i++) {
-		if (!plantype[plantable.children[i].children[1].innerText]) {
-			plantable.children[i].hidden = true;
-		}
-	}
-	if (filter_name.value != "") {
-		for (var i = 0; i < plantable.children.length; i++) {
-			if (plantable.children[i].children[2].innerText.search(filter_name.value) == -1) {
-				plantable.children[i].hidden = true;
-			}
-		}
-	}
-	var tag = [];
-	var tagisand = tagand.checked;
-	for (var i = 0; i < filter_tag.length; i++) {
-		if (filter_tag[i].checked) {
-			tag.push(filter_tag[i].value);
-		}
-	}
-	for (var i = 0; i < plantable.children.length; i++) {
-		var tagtemp = [];
-		for (var j = 0; j < plantable.children[i].children[3].children.length; j++) {
-			tagtemp.push(plantable.children[i].children[3].children[j].innerText);
-		}
-		var show;
-		if (tagisand) {
-			show = true;
-			for (var j = 0; j < tag.length; j++) {
-				if (tagtemp.indexOf(tag[j]) == -1) {
-					show = false;
-				}
-			}
-		} else {
-			show = false;
-			for (var j = 0; j < tag.length; j++) {
-				if (tagtemp.indexOf(tag[j]) != -1) {
-					show = true;
-				}
-			}
-		}
-		if (!show) {
-			plantable.children[i].hidden = true;
-		}
-	}
+	year1 = +(filter_year1.value||0);
+	year2 = +(filter_year2.value||0xffff);
+	f = tagand.checked?f1:f2;
+	plantype = {};
+	f0.call(filter_plantype,(b,i)=>plantype[i]=b.checked);
+	tag = [];
+	f0.call(filter_tag,(b,i)=>{if(b.checked)tag.push(i)});
+	f0.call(plantable.children,b=>{
+		var c=b.children;
+		b.hidden=!(
+			f(c[3])&&
+			plantype[c[1].i]&&
+			c[0].i>=year1&&
+			c[0].i<=year2&&
+			(!c[2].innerText||c[2].innerText.search(filter_name.value) > -1));
+	})
 }
 </script>
 <div class="container">
@@ -117,9 +88,9 @@ function filter(){
 	<div class="row">
 		<label class="col-sm-2 form-control-label">學年度</label>
 		<div class="col-sm-10 form-inline">
-			<input type="number" class="form-control" placeholder="起始" id="filter_year1" onkeyup="filter()" style="max-width: 45%;">
+			<input type="number" class="form-control" placeholder="起始" id="filter_year1" oninput="filter()" style="max-width: 45%;">
 			<span class="form-control-static">至</span>
-			<input type="number" class="form-control" placeholder="結束" id="filter_year2" onkeyup="filter()" style="max-width: 45%;">
+			<input type="number" class="form-control" placeholder="結束" id="filter_year2" oninput="filter()" style="max-width: 45%;">
 		</div>
 	</div>
 	<div class="row">
@@ -131,7 +102,7 @@ function filter(){
 			$sth->execute();
 			$plantypelist=$sth->fetchAll(PDO::FETCH_ASSOC);
 			foreach ($plantypelist as $plantype) {
-				?><label class="checkbox-inline" onclick="filter()">
+				?><label class="checkbox-inline" onchange="filter()">
 					<input type="checkbox" id="filter_plantype" value="<?=$plantype['name']?>" checked><?=$plantype['name']?>
 				</label> <?php
 			}
@@ -142,22 +113,22 @@ function filter(){
 	<div class="row">
 		<label class="col-sm-2 form-control-label" for="filter_name">標題</label>
 		<div class="col-sm-10">
-			<input type="text" class="form-control" id="filter_name" onkeyup="filter()">
+			<input type="text" class="form-control" id="filter_name" oninput="filter()">
 		</div>
 	</div>
 	<div class="row">
 		<label class="col-sm-2 form-control-label">標籤</label>
 		<div class="col-sm-10">
 			<div class="checkbox">
-				<label class="checkbox-inline" onclick="filter()">
+				<label class="checkbox-inline" onchange="filter()">
 					<input type="radio" name="tagandor" id="tagand" value="and">AND
 				</label>
-				<label class="checkbox-inline" onclick="filter()">
+				<label class="checkbox-inline" onchange="filter()">
 					<input type="radio" name="tagandor" id="tagor" value="or" checked>OR
 				</label>
 				<?php
 				foreach ($D['tag'] as $tag => $cnt) {
-					?><label class="checkbox-inline" onclick="filter()">
+					?><label class="checkbox-inline" onchange="filter()">
 						<input type="checkbox" id="filter_tag" value="<?=$tag?>" checked><?=$tag?>
 					</label> <?php
 				}
