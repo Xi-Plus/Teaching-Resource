@@ -85,7 +85,7 @@ if ($showform) {
 	<h2><?=$typename?>教案</h2>
 	<form action="" method="post">
 		<div class="form-group">
-			<label>學年度：<input type="number" name="year" value="<?=$D["plan"]["year"]?>" required></label>
+			<label>學年度：<input type="number" name="year" value="<?=$D["plan"]["year"]?>" min="0" max="99999999" required></label>
 		</div>
 		<div class="form-group">
 			<label>
@@ -124,7 +124,7 @@ if ($showform) {
 			}
 			?>
 			<div id="taglist">
-				<input type="text" name="newtag[]" placeholder="新標籤">
+				<input type="text" name="newtag[]" placeholder="新標籤" maxlength="15">
 			</div>
 			<button type="button" class="btn btn-default btn-sm" onclick="moretag()">更多標籤</button>
 		</div>
