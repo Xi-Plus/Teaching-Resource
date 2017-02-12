@@ -2,7 +2,6 @@
 <?php
 require('config/config.php');
 require("func/tag.php");
-$G["db"] = new PDO ('mysql:host='.$cfgDBhost.';dbname='.$cfgDBname.';charset=utf8', $cfgDBuser, $cfgDBpass);
 ?>
 <html lang="zh-Hant-TW">
 <head>

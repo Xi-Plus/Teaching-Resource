@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <?php
 require('config/config.php');
-$G["db"] = new PDO ('mysql:host='.$cfgDBhost.';dbname='.$cfgDBname.';charset=utf8', $cfgDBuser, $cfgDBpass);
 ?>
 <html lang="zh-Hant-TW">
 <head>
