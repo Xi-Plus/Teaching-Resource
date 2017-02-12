@@ -6,8 +6,10 @@ require('func/tag.php');
 $admin = false;
 if (isset($_GET['admin'])) {
 	$admin = true;
+	$sth = $G["db"]->prepare('SELECT * FROM `plan` ORDER BY `year` DESC, `type` ASC, `name` ASC');
+} else {
+	$sth = $G["db"]->prepare('SELECT * FROM `plan` WHERE `inuse` = 1 ORDER BY `year` DESC, `type` ASC, `name` ASC');
 }
-$sth = $G["db"]->prepare('SELECT * FROM `plan` ORDER BY `year` DESC, `type` ASC, `name` ASC');
 $sth->execute();
 $planlist=$sth->fetchAll(PDO::FETCH_ASSOC);
 ?>
