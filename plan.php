@@ -46,7 +46,7 @@ require("header.php");
 				?></td></tr>
 			<tr><td>附件</td><?php
 					$plan['file'] = json_decode($plan['file'], true);
-					foreach ($plan['file'] as $tag) {
+					foreach ($plan['file'] as $file) {
 						echo "$file<br>";
 					}
 				?></td></tr>

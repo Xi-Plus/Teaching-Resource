@@ -113,7 +113,7 @@ function filter(){
 }
 </script>
 <div class="container">
-	<h2>教案<?=($admin?"管理":"查詢")?><?php if($admin){ ?> <a class="btn btn-md btn-primary" href="<?=$C["path"]?>/newplan/" role="button">新增</a><?php }?></h2>
+	<h2>教案<?=($admin?"管理":"查詢")?><?php if($admin){ ?> <a class="btn btn-sm btn-primary" href="<?=$C["path"]?>/newplan/" role="button">新增</a><?php }?></h2>
 	<div class="row">
 		<label class="col-sm-2 form-control-label">學年度</label>
 		<div class="col-sm-10 form-inline">
@@ -174,7 +174,7 @@ function filter(){
 				<th>分類</th>
 				<th>標題</th>
 				<th>標籤</th>
-				<th><?=($admin?"管理":"詳情")?></th>
+				<th>動作</th>
 			</thead>
 			<tbody id="plantable">
 			<?php
@@ -191,14 +191,11 @@ function filter(){
 					}
 				?></td>
 				<td>
+				<a class="btn btn-sm btn-primary" href="<?=$C["path"]?>/plan/<?=$plan['id']?>/" role="button">查看</a>
 				<?php
 				if ($admin) {
 				?>
-				<a class="btn btn-sm btn-primary" href="<?=$C["path"]?>/manage/plan/edit/?id=<?=$plan['id']?>" role="button">管理</a>
-				<?php
-				} else {
-				?>
-				<a class="btn btn-sm btn-primary" href="<?=$C["path"]?>/view/plan/?id=<?=$plan['id']?>" role="button">詳情</a>
+				<a class="btn btn-sm btn-primary" href="<?=$C["path"]?>/editplan/<?=$plan['id']?>/" role="button">編輯</a>
 				<?php
 				}
 				?>
