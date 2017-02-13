@@ -118,15 +118,16 @@ if ($type == "add") {
 		</div>
 		<?php
 		$showform = false;
-	}
-	$D["plan"]["tag"] = json_decode($D["plan"]["tag"], true);
-	$D["plan"]["file"] = json_decode($D["plan"]["file"], true);
-	foreach ($D["plan"]["file"] as $file) {
-		if (!isset($D["file"][$file])) {
-			$sthfile = $G["db"]->prepare("SELECT * FROM `file` WHERE `id` = :id");
-			$sthfile->bindValue(":id", $file);
-			$sthfile->execute();
-			$D["file"][$file] = $sthfile->fetch(PDO::FETCH_ASSOC);
+	} else {
+		$D["plan"]["tag"] = json_decode($D["plan"]["tag"], true);
+		$D["plan"]["file"] = json_decode($D["plan"]["file"], true);
+		foreach ($D["plan"]["file"] as $file) {
+			if (!isset($D["file"][$file])) {
+				$sthfile = $G["db"]->prepare("SELECT * FROM `file` WHERE `id` = :id");
+				$sthfile->bindValue(":id", $file);
+				$sthfile->execute();
+				$D["file"][$file] = $sthfile->fetch(PDO::FETCH_ASSOC);
+			}
 		}
 	}
 }
