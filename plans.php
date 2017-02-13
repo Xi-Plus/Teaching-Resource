@@ -171,10 +171,10 @@ function filter(){
 		<label class="col-sm-2 form-control-label">標籤</label>
 		<div class="col-sm-10">
 			<div class="checkbox">
-				<label class="checkbox-inline" onclick="changeandor();filter();">
+				<label class="checkbox-inline" onclick="changeandor();filter();" data-toggle="tooltip" data-placement="bottom" title="同時包含這些標籤">
 					<input type="radio" name="tagandor" id="tagand" value="and">AND
 				</label>
-				<label class="checkbox-inline" onclick="changeandor();filter();">
+				<label class="checkbox-inline" onclick="changeandor();filter();" data-toggle="tooltip" data-placement="bottom" title="包含任一標籤">
 					<input type="radio" name="tagandor" id="tagor" value="or" checked>OR
 				</label>
 				<?php
