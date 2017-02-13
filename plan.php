@@ -44,10 +44,16 @@ require("header.php");
 						echo ($key?"、":"")."<mark>$tag</mark>";
 					}
 				?></td></tr>
-			<tr><td>附件</td><?php
+			<tr><td>附件</td><td><?php
 					$plan['file'] = json_decode($plan['file'], true);
 					foreach ($plan['file'] as $file) {
-						echo "$file<br>";
+						$sthfile = $G["db"]->prepare("SELECT * FROM `file` WHERE `id` = :id");
+						$sthfile->bindValue(":id", $file);
+						$sthfile->execute();
+						$D["file"][$file] = $sthfile->fetch(PDO::FETCH_ASSOC);
+						?>
+						<a href="<?=$C["path"]?>/file/<?=$file?>/"><?=$D["file"][$file]["name"]?></a><br>
+						<?php
 					}
 				?></td></tr>
 			<tr><td>狀態</td><td><?=$G["inuse"][$plan['inuse']]?></td></tr>
