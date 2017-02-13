@@ -96,13 +96,16 @@ if ($showform) {
 <div class="container">
 	<h2><?=$typename?>教案</h2>
 	<form action="" method="post">
-		<div class="form-group">
-			<label>學年度：<input type="number" name="year" value="<?=$D["plan"]["year"]?>" min="0" max="99999999" required></label>
+		<div class="row">
+			<label class="col-sm-2 form-control-label">學年度</label>
+			<div class="col-sm-10">
+				<input class="form-control" type="number" name="year" value="<?=$D["plan"]["year"]?>" min="0" max="99999999" required>
+			</div>
 		</div>
-		<div class="form-group">
-			<label>
-				類別：
-				<select name="type">
+		<div class="row">
+			<label class="col-sm-2 form-control-label">類別</label>
+			<div class="col-sm-10">
+				<select name="type" class="form-control">
 				<?php
 				$sth = $G["db"]->prepare("SELECT * FROM `plan_type` ORDER BY `id` ASC");
 				$sth->execute();
@@ -112,40 +115,57 @@ if ($showform) {
 				}
 				?>
 				</select>
-			</label>
-		</div>
-		<div class="form-group">
-			<label>標題：<input type="text" name="name" value="<?=$D["plan"]["name"]?>" required></label>
-		</div>
-		<div class="form-group">
-			<label>說明：<textarea name="description"><?=$D["plan"]["description"]?></textarea></label>
-		</div>
-		<div class="form-group">
-			狀態：
-			<label>
-				<input type="radio" name="inuse" value="1" <?=($D["plan"]["inuse"] == 1?"checked":"")?>>顯示
-			</label>
-			<label>
-				<input type="radio" name="inuse" value="0" <?=($D["plan"]["inuse"] == 0?"checked":"")?>>隱藏
-			</label>
-		</div>
-		<div class="form-group">標籤:
-			<?php
-			foreach ($D['tag'] as $tag => $cnt) {
-				?><label><input type="checkbox" name="tag[]" value="<?=$tag?>" <?=(in_array($tag, $D["plan"]["tag"])?"checked":"")?>><?=$tag?>(<?=$cnt?>)</label> <?php
-			}
-			?>
-			<div id="taglist">
-				<input type="text" name="newtag[]" placeholder="新標籤" maxlength="15">
 			</div>
-			<button type="button" class="btn btn-default btn-sm" onclick="moretag()">更多標籤</button>
 		</div>
-		<button type="submit" class="btn btn-primary"><?=$typename?></button>
+		<div class="row">
+			<label class="col-sm-2 form-control-label">標題</label>
+			<div class="col-sm-10">
+				<input class="form-control" type="text" name="name" value="<?=$D["plan"]["name"]?>" required>
+			</div>
+		</div>
+		<div class="row">
+			<label class="col-sm-2 form-control-label">說明</label>
+			<div class="col-sm-10">
+				<textarea class="form-control" name="description"><?=$D["plan"]["description"]?></textarea>
+			</div>
+		</div>
+		<div class="row">
+			<label class="col-sm-2 form-control-label">狀態</label>
+			<div class="col-sm-10">
+				<label>
+					<input type="radio" name="inuse" value="1" <?=($D["plan"]["inuse"] == 1?"checked":"")?>>顯示
+				</label>
+				<label>
+					<input type="radio" name="inuse" value="0" <?=($D["plan"]["inuse"] == 0?"checked":"")?>>隱藏
+				</label>
+			</div>
+		</div>
+		<div class="row">
+			<label class="col-sm-2 form-control-label">標籤</label>
+			<div class="col-sm-10">
+				<div class="checkbox">
+					<?php
+					foreach ($D['tag'] as $tag => $cnt) {
+						?><label><input type="checkbox" name="tag[]" value="<?=$tag?>" <?=(in_array($tag, $D["plan"]["tag"])?"checked":"")?>><?=$tag?>(<?=$cnt?>)</label> <?php
+					}
+					?>
+					<div id="taglist">
+						<button type="button" class="btn btn-default btn-sm" onclick="moretag()">更多標籤</button>
+						<input type="text" name="newtag[]" placeholder="新標籤" maxlength="15">
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row" style="margin-top: 10px;">
+			<div class="col-sm-10 offset-sm-2">
+				<button type="submit" class="btn btn-primary"><?=$typename?></button>
+			</div>
+		</div>
 	</form>
 </div>
 <script type="text/javascript">
 	function moretag(){
-		var temp=taglist.children[0].cloneNode(true);
+		var temp=taglist.children[1].cloneNode(true);
 		temp.value="";
 		taglist.appendChild(temp);
 	}
