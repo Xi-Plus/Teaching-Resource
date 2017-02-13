@@ -42,10 +42,22 @@ function alltag(){
 	for (var i = 0; i < filter_tag.length; i++) {
 		filter_tag[i].checked = true;
 	}
+	filter_notag.checked = true;
 }
 function notag(){
 	for (var i = 0; i < filter_tag.length; i++) {
 		filter_tag[i].checked = false;
+	}
+	filter_notag.checked = false;
+}
+function changeandor(){
+	if (tagand.checked) {
+		filter_notag.checked = false;
+		filter_notag.disabled = true;
+		filter_notag.classList.add("disabled");
+	} else {
+		filter_notag.disabled = false;
+		filter_notag.classList.remove("disabled");
 	}
 }
 function filter(){
@@ -87,6 +99,7 @@ function filter(){
 	}
 	var tag = [];
 	var tagisand = tagand.checked;
+	var tagno = filter_notag.checked;
 	for (var i = 0; i < filter_tag.length; i++) {
 		if (filter_tag[i].checked) {
 			tag.push(filter_tag[i].value);
@@ -98,7 +111,9 @@ function filter(){
 			tagtemp.push(plantable.children[i].children[3].children[j].innerText);
 		}
 		var show;
-		if (tagisand) {
+		if (tagtemp.length == 0 && tagno) {
+			show = true;
+		} else if (tagisand) {
 			show = true;
 			for (var j = 0; j < tag.length; j++) {
 				if (tagtemp.indexOf(tag[j]) == -1) {
@@ -156,19 +171,22 @@ function filter(){
 		<label class="col-sm-2 form-control-label">標籤</label>
 		<div class="col-sm-10">
 			<div class="checkbox">
-				<label class="checkbox-inline" onclick="filter()">
+				<label class="checkbox-inline" onclick="changeandor();filter();">
 					<input type="radio" name="tagandor" id="tagand" value="and">AND
 				</label>
-				<label class="checkbox-inline" onclick="filter()">
+				<label class="checkbox-inline" onclick="changeandor();filter();">
 					<input type="radio" name="tagandor" id="tagor" value="or" checked>OR
 				</label>
 				<?php
 				foreach ($D['tag'] as $tag => $cnt) {
 					?><label class="checkbox-inline" onclick="filter()">
-						<input type="checkbox" id="filter_tag" value="<?=$tag?>" checked><?=$tag?>
+						<input type="checkbox" id="filter_tag" value="<?=$tag?>" checked><mark><?=$tag?></mark>
 					</label> <?php
 				}
 				?>
+				<label class="checkbox-inline" onclick="filter()" data-toggle="tooltip" data-placement="bottom" title="僅在OR模式作用">
+					<input type="checkbox" id="filter_notag" checked>無標籤
+				</label>
 				<button type="button" class="btn btn-primary btn-sm" onclick="alltag();filter();">全選</button> 
 				<button type="button" class="btn btn-primary btn-sm" onclick="notag();filter();">全不選</button>
 			</div>
@@ -222,5 +240,10 @@ require("footer.php");
 <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+<script type="text/javascript">
+$(function () {
+	$('[data-toggle="tooltip"]').tooltip()
+})
+</script>
 </body>
 </html>
