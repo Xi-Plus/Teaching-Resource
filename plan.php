@@ -35,7 +35,7 @@ require("header.php");
 	<div class="table-responsive">
 		<table class="table">
 			<tr><td>學年度</td><td><?=$plan['year']?></td></tr>
-			<tr><td>類別</td><td><?=$plan['type']?></td></tr>
+			<tr><td>分類</td><td><?=$plan['type']?></td></tr>
 			<tr><td>標題</td><td><?=$plan['name']?></td></tr>
 			<tr><td>說明</td><td><?=str_replace("\n", "<br>", $plan['description'])?></td></tr>
 			<tr><td>標籤</td><td><?php

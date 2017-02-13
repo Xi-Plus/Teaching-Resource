@@ -103,7 +103,7 @@ if ($showform) {
 			</div>
 		</div>
 		<div class="row">
-			<label class="col-sm-2 form-control-label">類別</label>
+			<label class="col-sm-2 form-control-label">分類</label>
 			<div class="col-sm-10">
 				<select name="type" class="form-control">
 				<?php
