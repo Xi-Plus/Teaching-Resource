@@ -1,13 +1,15 @@
 <!DOCTYPE html>
 <?php
 require('config/config.php');
-$admin = false;
-if (isset($_GET['admin'])) {
-	$admin = true;
+$admin = isset($_GET['admin']);
+$pick = isset($_GET['pick']);
+if ($admin) {
+	$sth = $G["db"]->prepare('SELECT * FROM `file`');
+} else {
+	$sth = $G["db"]->prepare('SELECT * FROM `file` WHERE `inuse` = 1');
 }
-$sth = $G["db"]->prepare('SELECT * FROM `file`');
 $sth->execute();
-$filelist=$sth->fetchAll(PDO::FETCH_ASSOC);
+$filelist = $sth->fetchAll(PDO::FETCH_ASSOC);
 ?>
 <html lang="zh-Hant-TW">
 <head>
@@ -29,28 +31,32 @@ body {
 require("header.php");
 ?>
 <div class="container">
-	<h2>檔案<?=($admin?"管理":"查詢")?><?php if($admin){ ?> <a class="btn btn-md btn-primary" href="<?=$C["path"]?>/newfile/" role="button">新增</a><?php }?></h2>
+	<h2>檔案<?=($admin?"管理":"查詢")?><?php if($admin){ ?> <a class="btn btn-sm btn-primary" href="<?=$C["path"]?>/newfile/" role="button">新增</a><?php }?></h2>
 	<div class="table-responsive">
 		<table class="table">
+			<th>編號</th>
 			<th>名稱</th>
-			<th>詳情</th>
+			<th>動作</th>
 			<?php
 			foreach ($filelist as $file) {
 			?>
 			<tr>
+				<td><?=$file['id']?></td>
 				<td><?=$file['name']?></td>
 				<td>
-				<?php
-				if ($admin) {
-				?>
-				<a class="btn btn-sm btn-primary" href="<?=$C["path"]?>/manage/file/edit/?id=<?=$file['id']?>" role="button">管理</a>
-				<?php
-				} else {
-				?>
-				<a class="btn btn-sm btn-primary" href="<?=$C["path"]?>/view/file/?id=<?=$file['id']?>" role="button">詳情</a>
-				<?php
-				}
-				?>
+					<a class="btn btn-sm btn-primary" href="<?=$C["path"]?>/file/<?=$file['id']?>/" role="button">查看</a>
+					<?php
+					if ($admin) {
+					?>
+					<a class="btn btn-sm btn-primary" href="<?=$C["path"]?>/editfile/<?=$file['id']?>/" role="button">管理</a>
+					<?php
+					}
+					if ($pick) {
+					?>
+					<button class="btn btn-sm btn-success" onclick="window.opener.morefile('<?=$file['id']?>');window.close();">選取</button>
+					<?php
+					}
+					?>
 				</td>
 			</tr>
 			<?php

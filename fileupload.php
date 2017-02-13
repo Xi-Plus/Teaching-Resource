@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <?php
 require('config/config.php');
-$G["db"] = new PDO ('mysql:host='.$cfgDBhost.';dbname='.$cfgDBname.';charset=utf8', $cfgDBuser, $cfgDBpass);
 ?>
 <html lang="zh-Hant-TW">
 <head>
@@ -33,26 +32,26 @@ if (isset($_POST["filename"]) && isset($_FILES["file"])) {
 			$sth->execute();
 			$file=$sth->fetch(PDO::FETCH_ASSOC);
 			if ($file===false) {
-				$id=substr(md5(uniqid(rand(),true)), 0, 8);
+				$fileid=substr(md5(uniqid(rand(),true)), 0, 8);
 				$filename=md5(uniqid(rand(),true));
 				$sth = $G["db"]->prepare("INSERT INTO `file` (`name`, `filename`, `filehash`, `id`) VALUES (:name, :filename, :filehash, :id);");
 				$sth->bindValue(":name", $realname);
 				$sth->bindValue(":filename", $filename);
 				$sth->bindValue(":filehash", $filehash);
-				$sth->bindValue(":id", $id);
+				$sth->bindValue(":id", $fileid);
 				$sth->execute();
 				move_uploaded_file($_FILES["file"]["tmp_name"][$i], "file/".$filename);
 				?>
 				<div class="alert alert-success alert-dismissible" role="alert">
 				  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-				  <?=$_FILES['file']['name'][$i]?> (<?=$realname?>)上傳成功，<a href="<?=$C["path"]?>/view/file/?id=<?=$id?>" target="_blank">查看</a>
+				  <?=$_FILES['file']['name'][$i]?> (<?=$realname?>)上傳成功，檔案編號：<?=$fileid?>，<a href="<?=$C["path"]?>/file/<?=$fileid?>/" target="_blank">查看</a>
 				</div>
 				<?php
 			} else {
 			?>
 			<div class="alert alert-warning alert-dismissible" role="alert">
 			  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-			  <?=$_FILES['file']['name'][$i]?> (<?=$realname?>) 已經上傳過了，<a href="<?=$C["path"]?>/view/file/?id=<?=$file['id']?>" target="_blank">查看</a>
+			  <?=$_FILES['file']['name'][$i]?> (<?=$realname?>) 已經上傳過了，檔案編號：<?=$file['id']?>，<a href="<?=$C["path"]?>/file/<?=$file['id']?>/" target="_blank">查看</a>
 			</div>
 			<?php
 			}

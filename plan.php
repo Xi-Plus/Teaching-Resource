@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <?php
 require('config/config.php');
-$G["db"] = new PDO ('mysql:host='.$cfgDBhost.';dbname='.$cfgDBname.';charset=utf8', $cfgDBuser, $cfgDBpass);
+require('func/plantype.php');
 $sth = $G["db"]->prepare("SELECT * FROM `plan` WHERE `id` = :id");
 $sth->bindValue(':id', $_GET['id']);
 $sth->execute();
@@ -36,22 +36,28 @@ require("header.php");
 	<div class="table-responsive">
 		<table class="table">
 			<tr><td>學年度</td><td><?=$plan['year']?></td></tr>
-			<tr><td>類別</td><td><?=$plan['type']?></td></tr>
+			<tr><td>分類</td><td><?=$D['plantype'][$plan['type']]?></td></tr>
 			<tr><td>標題</td><td><?=$plan['name']?></td></tr>
-			<tr><td>說明</td><td><?=$plan['description']?></td></tr>
+			<tr><td>說明</td><td><?=str_replace("\n", "<br>", $plan['description'])?></td></tr>
 			<tr><td>標籤</td><td><?php
 					$plan['tag'] = json_decode($plan['tag'], true);
-					foreach ($plan['tag'] as $tag) {
-						echo "<mark>$tag</mark> ";
+					foreach ($plan['tag'] as $key => $tag) {
+						echo ($key?"、":"")."<mark>$tag</mark>";
 					}
 				?></td></tr>
-			<tr><td>附件</td><?php
+			<tr><td>附件</td><td><?php
 					$plan['file'] = json_decode($plan['file'], true);
-					foreach ($plan['file'] as $tag) {
-						echo "$file<br>";
+					foreach ($plan['file'] as $file) {
+						$sthfile = $G["db"]->prepare("SELECT * FROM `file` WHERE `id` = :id");
+						$sthfile->bindValue(":id", $file);
+						$sthfile->execute();
+						$D["file"][$file] = $sthfile->fetch(PDO::FETCH_ASSOC);
+						?>
+						<a href="<?=$C["path"]?>/file/<?=$file?>/"><?=$D["file"][$file]["name"]?></a><br>
+						<?php
 					}
 				?></td></tr>
-			<tr><td>顯示</td><td><?=$plan['inuse']?></td></tr>
+			<tr><td>狀態</td><td><?=$G["inuse"][$plan['inuse']]?></td></tr>
 		</table>
 	</div>
 	<?php
