@@ -61,7 +61,7 @@ if ($D["file"] === false) {
 if ($showform) {
 ?>
 <div class="container">
-	<h2>編輯檔案</h2>
+	<h2>編輯檔案 <a class="btn btn-sm btn-primary" href="<?=$C["path"]?>/file/<?=$fileid?>/" role="button" target="_blank">查看</a></h2>
 	<form action="" method="post">
 		<div class="row">
 			<label class="col-sm-2 form-control-label">編號</label>

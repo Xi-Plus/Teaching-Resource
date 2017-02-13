@@ -135,7 +135,7 @@ require("func/tag.php");
 if ($showform) {
 ?>
 <div class="container">
-	<h2><?=$typename?>教案</h2>
+	<h2><?=$typename?>教案 <?php if($type=="edit"){ ?><a class="btn btn-sm btn-primary" href="<?=$C["path"]?>/plan/<?=$planid?>/" role="button" target="_blank">查看</a><?php } ?></h2>
 	<form action="" method="post">
 		<div class="row">
 			<label class="col-sm-2 form-control-label">學年度</label>
