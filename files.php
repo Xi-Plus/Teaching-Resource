@@ -1,13 +1,14 @@
 <!DOCTYPE html>
 <?php
 require('config/config.php');
-$admin = false;
-if (isset($_GET['admin'])) {
-	$admin = true;
+$admin = isset($_GET['admin']);
+if ($admin) {
+	$sth = $G["db"]->prepare('SELECT * FROM `file`');
+} else {
+	$sth = $G["db"]->prepare('SELECT * FROM `file` WHERE `inuse` = 1');
 }
-$sth = $G["db"]->prepare('SELECT * FROM `file`');
 $sth->execute();
-$filelist=$sth->fetchAll(PDO::FETCH_ASSOC);
+$filelist = $sth->fetchAll(PDO::FETCH_ASSOC);
 ?>
 <html lang="zh-Hant-TW">
 <head>
