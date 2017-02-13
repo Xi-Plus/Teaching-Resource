@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <?php
 require('config/config.php');
+$fileid = $_GET['id'] ?? "";
 $sth = $G["db"]->prepare("SELECT * FROM `file` WHERE `id` = :id");
-$sth->bindValue(':id', $_GET['id']);
+$sth->bindValue(':id', $fileid);
 $sth->execute();
 $file=$sth->fetch(PDO::FETCH_ASSOC);
 ?>
@@ -36,6 +37,19 @@ require("header.php");
 		<table class="table">
 			<tr><td>名稱</td><td><?=$file['name']?></td></tr>
 			<tr><td>狀態</td><td><?=$G["inuse"][$file['inuse']]?></td></tr>
+			<tr><td>使用</td><td>
+				<?php
+				$sth = $G["db"]->prepare("SELECT * FROM `plan` WHERE JSON_CONTAINS(`file`, :file)");
+				$sth->bindValue(':file', json_encode([$fileid]));
+				$sth->execute();
+				$plans = $sth->fetchAll(PDO::FETCH_ASSOC);
+				foreach ($plans as $plan) {
+					?>
+					<a href="<?=$C["path"]?>/plan/<?=$plan["id"]?>/"><?=$plan["name"]?></a><br>
+					<?php
+				}
+				?>
+			</td></tr>
 		</table>
 	</div>
 	<?php
