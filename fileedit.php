@@ -109,16 +109,45 @@ if ($showform) {
 			</div>
 		</div>
 		<div class="row">
+			<label class="col-sm-2 form-control-label">使用</label>
+			<div class="col-sm-10">
+				<?php
+				$sth = $G["db"]->prepare("SELECT * FROM `plan` WHERE JSON_CONTAINS(`file`, :file)");
+				$sth->bindValue(':file', json_encode([$fileid]));
+				$sth->execute();
+				$plans = $sth->fetchAll(PDO::FETCH_ASSOC);
+				foreach ($plans as $plan) {
+					?>
+					<a href="<?=$C["path"]?>/plan/<?=$plan["id"]?>/"><?=$plan["name"]?></a><br>
+					<?php
+				}
+				?>
+			</div>
+		</div>
+		<div class="row">
 			<div class="col-sm-10 offset-sm-2">
 				<button type="submit" name="action" value="edit" class="btn btn-primary">編輯</button>
 			</div>
 		</div>
 		<div class="row">
 			<div class="col-sm-10 offset-sm-2">
-				<button type="submit" name="action" value="del" class="btn btn-danger">刪除</button>
-				<label>
-					<input type="checkbox" name="del">確認刪除
-				</label>
+				<?php
+				if (count($plans)) {
+					?>
+					<button type="button" name="action" value="del" class="btn btn-danger disabled" data-toggle="tooltip" data-placement="bottom" title="尚有教案使用此檔案，需先從教案移除此檔案方可刪除">刪除</button>
+					<label class="disabled" data-toggle="tooltip" data-placement="bottom" title="尚有教案使用此檔案，需先從教案移除此檔案方可刪除">
+						<input type="checkbox" name="del" disabled>確認刪除
+					</label>
+					<?php
+				} else {
+					?>
+					<button type="submit" name="action" value="del" class="btn btn-danger">刪除</button>
+					<label>
+						<input type="checkbox" name="del">確認刪除
+					</label>
+					<?php
+				}
+				?>
 			</div>
 		</div>
 	</form>
@@ -131,5 +160,10 @@ require("footer.php");
 <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+<script type="text/javascript">
+$(function () {
+	$('[data-toggle="tooltip"]').tooltip()
+})
+</script>
 </body>
 </html>
