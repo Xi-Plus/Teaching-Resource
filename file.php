@@ -27,7 +27,7 @@ body {
 require("header.php");
 ?>
 <div class="container">
-	<h2>檔案詳情</span></h2>
+	<h2>檔案詳情</h2>
 	<?php
 	if ($file===false) {
 		echo "找不到";
