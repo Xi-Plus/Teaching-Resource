@@ -1,18 +1,30 @@
-<!DOCTYPE html>
 <?php
 require('config/config.php');
 $fileid = $_GET['id'] ?? "";
 $sth = $G["db"]->prepare("SELECT * FROM `file` WHERE `id` = :id");
 $sth->bindValue(':id', $fileid);
 $sth->execute();
-$file=$sth->fetch(PDO::FETCH_ASSOC);
+$file = $sth->fetch(PDO::FETCH_ASSOC);
+$filepath = "file/".$file["filename"];
+if ($file !== false && file_exists($filepath)) {
+	header('Content-Description: File Transfer');
+	header('Content-Type: application/octet-stream');
+	header('Content-Disposition: attachment; filename="'.basename($file["name"]).'"');
+	header('Expires: 0');
+	header('Cache-Control: must-revalidate');
+	header('Pragma: public');
+	header('Content-Length: '.filesize($filepath));
+	readfile($filepath);
+	exit;
+}
 ?>
+<!DOCTYPE html>
 <html lang="zh-Hant-TW">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
-<title><?=$C["titlename"]?>/檔案資料/<?=($file===false?"找不到":$file['name'])?></title>
+<title><?=$C["titlename"]?>/下載檔案</title>
 
 <style type="text/css">
 body {
@@ -25,41 +37,25 @@ body {
 
 <?php
 require("header.php");
-?>
-<div class="container">
-	<h2>檔案詳情</h2>
-	<?php
-	if ($file===false) {
-		echo "找不到";
-	} else {
+if ($file === false) {
 	?>
-	<div class="table-responsive">
-		<table class="table">
-			<tr><td>名稱</td><td><?=$file['name']?></td></tr>
-			<tr><td>狀態</td><td><?=$G["inuse"][$file['inuse']]?></td></tr>
-			<tr><td>下載</td><td>
-				<a href="<?=$C["path"]?>/download/<?=$fileid?>/">下載</a>
-			</td></tr>
-			<tr><td>使用</td><td>
-				<?php
-				$sth = $G["db"]->prepare("SELECT * FROM `plan` WHERE JSON_CONTAINS(`file`, :file)");
-				$sth->bindValue(':file', json_encode([$fileid]));
-				$sth->execute();
-				$plans = $sth->fetchAll(PDO::FETCH_ASSOC);
-				foreach ($plans as $plan) {
-					?>
-					<a href="<?=$C["path"]?>/plan/<?=$plan["id"]?>/"><?=$plan["name"]?></a><br>
-					<?php
-				}
-				?>
-			</td></tr>
-		</table>
+	<div class="alert alert-danger alert-dismissible" role="alert">
+		<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		找不到檔案
 	</div>
 	<?php
-	}
+} elseif (!file_exists($filepath)) {
 	?>
+	<div class="alert alert-danger alert-dismissible" role="alert">
+		<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		檔案遺失
+	</div>
+	<?php
+}
+?>
+<div class="container">
+	
 </div>
-
 
 <?php
 require("footer.php");

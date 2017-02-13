@@ -3,6 +3,7 @@
 require('config/config.php');
 $showform = true;
 $fileid = $_GET["id"] ?? "";
+$action = $_POST["action"] ?? "view";
 ?>
 <html lang="zh-Hant-TW">
 <head>
@@ -22,7 +23,11 @@ body {
 
 <?php
 require("header.php");
-if (isset($_POST["name"])) {
+$sth = $G["db"]->prepare("SELECT * FROM `file` WHERE `id` = :id");
+$sth->bindValue(":id", $fileid);
+$sth->execute();
+$D["file"] = $sth->fetch(PDO::FETCH_ASSOC);
+if ($action == "edit") {
 	$sth = $G["db"]->prepare("UPDATE `file` SET `name` = :name, `inuse` = :inuse WHERE `id` = :id");
 	$_POST["name"] = trim($_POST["name"]);
 	$_POST["name"] = preg_replace("/[[:cntrl:]]/", "", $_POST["name"]);
@@ -45,18 +50,37 @@ if (isset($_POST["name"])) {
 		</div>
 		<?php
 	}
+} else if ($action == "del") {
+	if (isset($_POST["del"])) {
+		$sth = $G["db"]->prepare("DELETE FROM `file` WHERE `id` = :id");
+		$sth->bindValue(":id", $fileid);
+		$sth->execute();
+		unlink("file/".$D["file"]["filename"]);
+		$showform = false;
+		?>
+		<div class="alert alert-success alert-dismissible" role="alert">
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			已刪除，<a href="<?=$C["path"]?>/managefiles/">回到檔案列表</a>
+		</div>
+		<?php
+	} else {
+		?>
+		<div class="alert alert-danger alert-dismissible" role="alert">
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			請勾選「確認刪除」
+		</div>
+		<?php
+	}
 }
-$sth = $G["db"]->prepare("SELECT * FROM `file` WHERE `id` = :id");
-$sth->bindValue(":id", $fileid);
-$sth->execute();
-$D["file"] = $sth->fetch(PDO::FETCH_ASSOC);
-if ($D["file"] === false) {
-	?>
-	<div class="alert alert-danger" role="alert">
-		找不到檔案，<a href="<?=$C["path"]?>/managefiles/">請回到列表重新選擇</a>
-	</div>
-	<?php
-	$showform = false;
+if ($showform) {
+	if ($D["file"] === false) {
+		?>
+		<div class="alert alert-danger" role="alert">
+			找不到檔案，<a href="<?=$C["path"]?>/managefiles/">請回到列表重新選擇</a>
+		</div>
+		<?php
+		$showform = false;
+	}
 }
 if ($showform) {
 ?>
@@ -86,7 +110,15 @@ if ($showform) {
 		</div>
 		<div class="row">
 			<div class="col-sm-10 offset-sm-2">
-				<button type="submit" class="btn btn-primary">編輯</button>
+				<button type="submit" name="action" value="edit" class="btn btn-primary">編輯</button>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-10 offset-sm-2">
+				<button type="submit" name="action" value="del" class="btn btn-danger">刪除</button>
+				<label>
+					<input type="checkbox" name="del">確認刪除
+				</label>
 			</div>
 		</div>
 	</form>
