@@ -44,14 +44,14 @@ if (isset($_POST["filename"]) && isset($_FILES["file"])) {
 				?>
 				<div class="alert alert-success alert-dismissible" role="alert">
 				  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-				  <?=$_FILES['file']['name'][$i]?> (<?=$realname?>)上傳成功，<a href="<?=$C["path"]?>/view/file/?id=<?=$id?>" target="_blank">查看</a>
+				  <?=$_FILES['file']['name'][$i]?> (<?=$realname?>)上傳成功，檔案編號：<?=$file['id']?>，<a href="<?=$C["path"]?>/view/file/?id=<?=$id?>" target="_blank">查看</a>
 				</div>
 				<?php
 			} else {
 			?>
 			<div class="alert alert-warning alert-dismissible" role="alert">
 			  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-			  <?=$_FILES['file']['name'][$i]?> (<?=$realname?>) 已經上傳過了，<a href="<?=$C["path"]?>/view/file/?id=<?=$file['id']?>" target="_blank">查看</a>
+			  <?=$_FILES['file']['name'][$i]?> (<?=$realname?>) 已經上傳過了，檔案編號：<?=$file['id']?>，<a href="<?=$C["path"]?>/file/<?=$file['id']?>/" target="_blank">查看</a>
 			</div>
 			<?php
 			}

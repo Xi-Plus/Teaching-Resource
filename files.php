@@ -29,28 +29,27 @@ body {
 require("header.php");
 ?>
 <div class="container">
-	<h2>檔案<?=($admin?"管理":"查詢")?><?php if($admin){ ?> <a class="btn btn-md btn-primary" href="<?=$C["path"]?>/newfile/" role="button">新增</a><?php }?></h2>
+	<h2>檔案<?=($admin?"管理":"查詢")?><?php if($admin){ ?> <a class="btn btn-sm btn-primary" href="<?=$C["path"]?>/newfile/" role="button">新增</a><?php }?></h2>
 	<div class="table-responsive">
 		<table class="table">
+			<th>編號</th>
 			<th>名稱</th>
 			<th>詳情</th>
 			<?php
 			foreach ($filelist as $file) {
 			?>
 			<tr>
+				<td><?=$file['id']?></td>
 				<td><?=$file['name']?></td>
 				<td>
-				<?php
-				if ($admin) {
-				?>
-				<a class="btn btn-sm btn-primary" href="<?=$C["path"]?>/manage/file/edit/?id=<?=$file['id']?>" role="button">管理</a>
-				<?php
-				} else {
-				?>
-				<a class="btn btn-sm btn-primary" href="<?=$C["path"]?>/view/file/?id=<?=$file['id']?>" role="button">詳情</a>
-				<?php
-				}
-				?>
+					<a class="btn btn-sm btn-primary" href="<?=$C["path"]?>/file/<?=$file['id']?>/" role="button">詳情</a>
+					<?php
+					if ($admin) {
+					?>
+					<a class="btn btn-sm btn-primary" href="<?=$C["path"]?>/editfile/<?=$file['id']?>/" role="button">管理</a>
+					<?php
+					}
+					?>
 				</td>
 			</tr>
 			<?php

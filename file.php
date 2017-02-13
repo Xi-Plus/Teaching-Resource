@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <?php
 require('config/config.php');
-$G["db"] = new PDO ('mysql:host='.$cfgDBhost.';dbname='.$cfgDBname.';charset=utf8', $cfgDBuser, $cfgDBpass);
 $sth = $G["db"]->prepare("SELECT * FROM `file` WHERE `id` = :id");
 $sth->bindValue(':id', $_GET['id']);
 $sth->execute();

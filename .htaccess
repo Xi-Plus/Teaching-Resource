@@ -10,5 +10,5 @@ RewriteRule ^plan/(.*?)/?$ plan.php?id=$1 [PT,L]
 RewriteRule ^newplan/?$ planedit.php?type=add [PT,L]
 RewriteRule ^editplan/(.*?)/?$ planedit.php?type=edit&id=$1 [PT,L]
 RewriteRule ^files/?$ files.php [PT,L]
-RewriteRule ^file/?$ file.php
+RewriteRule ^file/(.*?)/??$ file.php?id=$1 [PT,L]
 RewriteRule ^newfile/?$ fileupload.php [PT,L]
