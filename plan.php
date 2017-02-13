@@ -50,7 +50,7 @@ require("header.php");
 						echo "$file<br>";
 					}
 				?></td></tr>
-			<tr><td>顯示</td><td><?=$plan['inuse']?></td></tr>
+			<tr><td>狀態</td><td><?=$G["inuse"][$plan['inuse']]?></td></tr>
 		</table>
 	</div>
 	<?php
