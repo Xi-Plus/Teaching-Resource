@@ -2,6 +2,7 @@
 <?php
 require('config/config.php');
 $admin = isset($_GET['admin']);
+$pick = isset($_GET['pick']);
 if ($admin) {
 	$sth = $G["db"]->prepare('SELECT * FROM `file`');
 } else {
@@ -48,6 +49,11 @@ require("header.php");
 					if ($admin) {
 					?>
 					<a class="btn btn-sm btn-primary" href="<?=$C["path"]?>/editfile/<?=$file['id']?>/" role="button">管理</a>
+					<?php
+					}
+					if ($pick) {
+					?>
+					<button class="btn btn-sm btn-success" onclick="window.opener.morefile('<?=$file['id']?>');window.close();">選取</button>
 					<?php
 					}
 					?>

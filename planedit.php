@@ -221,10 +221,9 @@ if ($showform) {
 					}
 					?>
 					<div id="filelist">
-						<input type="text" name="newfile[]" placeholder="新檔案">
+						<input type="text" name="newfile[]" placeholder="新檔案" hidden>
 					</div>
-					<button type="button" class="btn btn-default btn-sm" onclick="morefile()">更多檔案</button>
-					取得<strong>檔案編號</strong>再填至這裡：<a href="<?=$C["path"]?>/managefiles/" target="_blank">查詢舊檔案</a>、<a href="<?=$C["path"]?>/newfile/" target="_blank">上傳新檔案</a>
+					<button type="button" class="btn btn-default btn-sm" onclick="pickfile()">更多檔案</button>
 				</div>
 			</div>
 		</div>
@@ -266,13 +265,17 @@ if ($showform) {
 		temp.value="";
 		taglist.appendChild(temp);
 	}
-	function morefile(){
+	function morefile(id=""){
 		var temp=filelist.children[0].cloneNode(true);
-		temp.value="";
+		temp.value=id;
+		temp.hidden=false;
 		filelist.appendChild(temp);
 	}
 	function removefile(id){
 		document.all["file_"+id].remove();
+	}
+	function pickfile(id){
+		window.open("<?=$C["path"]?>/pickfile/", "_blank");
 	}
 </script>
 
