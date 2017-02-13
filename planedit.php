@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <?php
 require('config/config.php');
+require('func/plantype.php');
 $showform = true;
 switch ($_GET["type"]) {
 	case 'add':
@@ -148,11 +149,8 @@ if ($showform) {
 			<div class="col-sm-10">
 				<select name="type" class="form-control">
 				<?php
-				$sth = $G["db"]->prepare("SELECT * FROM `plan_type` ORDER BY `id` ASC");
-				$sth->execute();
-				$plantypelist=$sth->fetchAll(PDO::FETCH_ASSOC);
-				foreach ($plantypelist as $plantype) {
-					?><option value="<?=$plantype['id']?>" <?=($D["plan"]["type"] == $plantype['id']?"selected":"")?>><?=$plantype['name']?></option><?php
+				foreach ($D['plantype'] as $id => $plantype) {
+					?><option value="<?=$id?>" <?=($D["plan"]["type"] == $id?"selected":"")?>><?=$plantype?></option><?php
 				}
 				?>
 				</select>

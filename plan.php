@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <?php
 require('config/config.php');
+require('func/plantype.php');
 $sth = $G["db"]->prepare("SELECT * FROM `plan` WHERE `id` = :id");
 $sth->bindValue(':id', $_GET['id']);
 $sth->execute();
@@ -35,7 +36,7 @@ require("header.php");
 	<div class="table-responsive">
 		<table class="table">
 			<tr><td>學年度</td><td><?=$plan['year']?></td></tr>
-			<tr><td>分類</td><td><?=$plan['type']?></td></tr>
+			<tr><td>分類</td><td><?=$D['plantype'][$plan['type']]?></td></tr>
 			<tr><td>標題</td><td><?=$plan['name']?></td></tr>
 			<tr><td>說明</td><td><?=str_replace("\n", "<br>", $plan['description'])?></td></tr>
 			<tr><td>標籤</td><td><?php
