@@ -78,15 +78,16 @@ window.onload=function(){
 	})
 };
 function filter(){
-	var a,s,f,f0,f1,f2,year1,year2,plantype,tag;
+	var a,s,nt,f,f0,f1,f2,year1,year2,plantype,tag;
 	a=Array.prototype;
 	f0=a.forEach;
-	f1=c=>c.l==tag.length&&a.every.call(tag,e=>c.i[e]);
-	f2=c=>a.some.call(tag,e=>c.i[e]);
+	f1=c=>(c.l==tag.length)&a.every.call(tag,e=>c.i[e]);
+	f2=c=>a.some.call(tag,e=>c.i[e])||nt&&!c.l;
 	console.log("filter");
 	year1 = +(filter_year1.value||0);
 	year2 = +(filter_year2.value||0xffff);
 	s=filter_name.value;
+	nt=filter_notag.checked;
 	f = tagand.checked?f1:f2;
 	plantype = {};
 	f0.call(filter_plantype,(b,i)=>plantype[i]=b.checked);
