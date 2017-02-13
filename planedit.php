@@ -63,7 +63,7 @@ if (isset($_POST["year"])) {
 				?>
 				<div class="alert alert-danger alert-dismissible" role="alert">
 					<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-					找不到<?=$newfile?>
+					附加檔案失敗，找不到檔案編號 <?=$newfile?>，<a href="<?=$C["path"]?>/managefiles/" target="_blank">查看檔案列表</a>
 				</div>
 				<?php
 			} else {
@@ -71,7 +71,7 @@ if (isset($_POST["year"])) {
 				?>
 				<div class="alert alert-success alert-dismissible" role="alert">
 					<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-					成功附加檔案 <?=$D["file"][$newfile]["name"]?>，<a href="<?=$C["path"]?>/file/<?=$newfile?>/" target="_blank">查看此檔案</a>
+					附加檔案成功 <?=$D["file"][$newfile]["name"]?>，<a href="<?=$C["path"]?>/file/<?=$newfile?>/" target="_blank">查看此檔案</a>
 				</div>
 				<?php
 			}

@@ -34,7 +34,7 @@ require("header.php");
 		<table class="table">
 			<th>編號</th>
 			<th>名稱</th>
-			<th>詳情</th>
+			<th>動作</th>
 			<?php
 			foreach ($filelist as $file) {
 			?>
@@ -42,7 +42,7 @@ require("header.php");
 				<td><?=$file['id']?></td>
 				<td><?=$file['name']?></td>
 				<td>
-					<a class="btn btn-sm btn-primary" href="<?=$C["path"]?>/file/<?=$file['id']?>/" role="button">詳情</a>
+					<a class="btn btn-sm btn-primary" href="<?=$C["path"]?>/file/<?=$file['id']?>/" role="button">查看</a>
 					<?php
 					if ($admin) {
 					?>
