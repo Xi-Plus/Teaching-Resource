@@ -16,6 +16,7 @@ switch ($_GET["type"]) {
 		$showform = false;
 		break;
 }
+$action = $_POST["action"] ?? "view";
 $planid = $_GET["id"] ?? "";
 ?>
 <html lang="zh-Hant-TW">
@@ -36,7 +37,7 @@ body {
 
 <?php
 require("header.php");
-if (isset($_POST["year"])) {
+if ($action == "edit") {
 	if ($type == "add") {
 		$planid = substr(md5(uniqid(rand(),true)), 0, 8);
 		$sth = $G["db"]->prepare("INSERT INTO `plan` (`year`, `type`, `name`, `description`, `tag`, `file`, `inuse`, `id`) VALUES (:year, :type, :name, :description, :tag, :file, :inuse, :id)");
@@ -104,10 +105,30 @@ if (isset($_POST["year"])) {
 		</div>
 		<?php
 	}
+} else if ($action == "del") {
+	if (isset($_POST["del"])) {
+		$sth = $G["db"]->prepare("DELETE FROM `plan` WHERE `id` = :id");
+		$sth->bindValue(":id", $planid);
+		$sth->execute();
+		$showform = false;
+		?>
+		<div class="alert alert-success alert-dismissible" role="alert">
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			已刪除，<a href="<?=$C["path"]?>/manageplans/">回到教案列表</a>
+		</div>
+		<?php
+	} else {
+		?>
+		<div class="alert alert-danger alert-dismissible" role="alert">
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			請勾選「確認刪除」
+		</div>
+		<?php
+	}
 }
-if ($type == "add") {
+if ($showform && $type == "add") {
 	$D["plan"] = array("year"=>$G["schoolyear"], "type"=>"0", "name"=>"", "description"=>"", "tag"=>array(), "file"=>array(), "inuse"=>"1");
-} else if ($type == "edit") {
+} else if ($showform && $type == "edit") {
 	$sth = $G["db"]->prepare("SELECT * FROM `plan` WHERE `id` = :id");
 	$sth->bindValue(":id", $planid);
 	$sth->execute();
@@ -220,9 +241,23 @@ if ($showform) {
 		</div>
 		<div class="row">
 			<div class="col-sm-10 offset-sm-2">
-				<button type="submit" class="btn btn-primary"><?=$typename?></button>
+				<button type="submit" name="action" value="edit" class="btn btn-primary"><?=$typename?></button>
 			</div>
 		</div>
+		<?php
+		if ($type == "edit") {
+		?>
+		<div class="row">
+			<div class="col-sm-10 offset-sm-2">
+				<button type="submit" name="action" value="del" class="btn btn-danger">刪除</button>
+				<label>
+					<input type="checkbox" name="del">確認刪除
+				</label>
+			</div>
+		</div>
+		<?php
+		}
+		?>
 	</form>
 </div>
 <script type="text/javascript">
