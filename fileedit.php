@@ -23,6 +23,10 @@ body {
 
 <?php
 require("header.php");
+$sth = $G["db"]->prepare("SELECT * FROM `file` WHERE `id` = :id");
+$sth->bindValue(":id", $fileid);
+$sth->execute();
+$D["file"] = $sth->fetch(PDO::FETCH_ASSOC);
 $sth = $G["db"]->prepare("SELECT * FROM `plan` WHERE JSON_CONTAINS(`file`, :file)");
 $sth->bindValue(':file', json_encode([$fileid]));
 $sth->execute();
@@ -125,7 +129,9 @@ if ($showform) {
 				<?php
 				foreach ($D["plans"] as $plan) {
 					?>
-					<a href="<?=$C["path"]?>/plan/<?=$plan["id"]?>/"><?=$plan["name"]?></a><br>
+					<a href="<?=$C["path"]?>/plan/<?=$plan["id"]?>/"><?=$plan["name"]?></a>
+					<a class="btn btn-sm btn-primary" href="<?=$C["path"]?>/editplan/<?=$plan['id']?>/" role="button">編輯</a>
+					<br>
 					<?php
 				}
 				?>
