@@ -42,7 +42,9 @@ function alltag(){
 	for (var i = 0; i < filter_tag.length; i++) {
 		filter_tag[i].checked = true;
 	}
-	filter_notag.checked = true;
+	if (tagor.checked) {
+		filter_notag.checked = true;
+	}
 }
 function notag(){
 	for (var i = 0; i < filter_tag.length; i++) {
@@ -180,7 +182,7 @@ function filter(){
 				<?php
 				foreach ($D['tag'] as $tag => $cnt) {
 					?><label class="checkbox-inline" onclick="filter()">
-						<input type="checkbox" id="filter_tag" value="<?=$tag?>" checked><mark><?=$tag?></mark>
+						<input type="checkbox" id="filter_tag" value="<?=htmlentities($tag)?>" checked><mark><?=htmlentities($tag)?></mark>
 					</label> <?php
 				}
 				?>
@@ -208,11 +210,11 @@ function filter(){
 			<tr>
 				<td><?=$plan['year']?></td>
 				<td><?=$D['plantype'][$plan['type']]?></td>
-				<td><?=$plan['name']?></td>
+				<td><?=htmlentities($plan['name'])?></td>
 				<td><?php
 					$plan['tag'] = json_decode($plan['tag'], true);
 					foreach ($plan['tag'] as $key => $tag) {
-						echo ($key?"、":"")."<mark>$tag</mark>";
+						echo ($key?"、":"")."<mark>".htmlentities($tag)."</mark>";
 					}
 				?></td>
 				<td>

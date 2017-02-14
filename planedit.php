@@ -73,7 +73,7 @@ if ($action == "edit") {
 				?>
 				<div class="alert alert-success alert-dismissible" role="alert">
 					<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-					附加檔案成功 <?=$D["file"][$newfile]["name"]?>，<a href="<?=$C["path"]?>/file/<?=$newfile?>/" target="_blank">查看此檔案</a>
+					附加檔案成功 <?=htmlentities($D["file"][$newfile]["name"])?>，<a href="<?=$C["path"]?>/file/<?=$newfile?>/" target="_blank">查看此檔案</a>
 				</div>
 				<?php
 			}
@@ -195,7 +195,7 @@ if ($showform) {
 				<div class="checkbox">
 					<?php
 					foreach ($D['tag'] as $tag => $cnt) {
-						?><label><input type="checkbox" name="tag[]" value="<?=$tag?>" <?=(in_array($tag, $D["plan"]["tag"])?"checked":"")?>><?=$tag?>(<?=$cnt?>)</label> <?php
+						?><label><input type="checkbox" name="tag[]" value="<?=htmlentities($tag)?>" <?=(in_array($tag, $D["plan"]["tag"])?"checked":"")?>><?=htmlentities($tag)?>(<?=$cnt?>)</label> <?php
 					}
 					?>
 					<div id="taglist">
@@ -213,7 +213,7 @@ if ($showform) {
 					foreach ($D["plan"]["file"] as $file) {
 						?>
 						<div id="file_<?=$file?>">
-							<a href="<?=$C["path"]?>/file/<?=$file?>/" target="_blank"><?=$D["file"][$file]["name"]?></a>
+							<a href="<?=$C["path"]?>/file/<?=$file?>/" target="_blank"><?=htmlentities($D["file"][$file]["name"])?></a>
 							<input type="hidden" name="file[]" value="<?=$file?>">
 							<button type="button" class="btn btn-danger btn-sm" onclick="removefile('<?=$file?>')">移除</button>
 						</div>

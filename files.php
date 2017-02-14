@@ -42,7 +42,7 @@ require("header.php");
 			?>
 			<tr>
 				<td><?=$file['id']?></td>
-				<td><?=$file['name']?></td>
+				<td><?=htmlentities($file['name'])?></td>
 				<td>
 					<a class="btn btn-sm btn-primary" href="<?=$C["path"]?>/file/<?=$file['id']?>/" role="button">查看</a>
 					<?php

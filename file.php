@@ -35,7 +35,7 @@ require("header.php");
 	?>
 	<div class="table-responsive">
 		<table class="table">
-			<tr><td>名稱</td><td><?=$file['name']?></td></tr>
+			<tr><td>名稱</td><td><?=htmlentities($file['name'])?></td></tr>
 			<tr><td>狀態</td><td><?=$G["inuse"][$file['inuse']]?></td></tr>
 			<tr><td>下載</td><td>
 				<a href="<?=$C["path"]?>/download/<?=$fileid?>/">下載</a>

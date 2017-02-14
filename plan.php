@@ -2,8 +2,9 @@
 <?php
 require('config/config.php');
 require('func/plantype.php');
+$planid = $_GET['id'] ?? "";
 $sth = $G["db"]->prepare("SELECT * FROM `plan` WHERE `id` = :id");
-$sth->bindValue(':id', $_GET['id']);
+$sth->bindValue(':id', $planid);
 $sth->execute();
 $plan=$sth->fetch(PDO::FETCH_ASSOC);
 ?>
@@ -37,12 +38,12 @@ require("header.php");
 		<table class="table">
 			<tr><td>學年度</td><td><?=$plan['year']?></td></tr>
 			<tr><td>分類</td><td><?=$D['plantype'][$plan['type']]?></td></tr>
-			<tr><td>標題</td><td><?=$plan['name']?></td></tr>
-			<tr><td>說明</td><td><?=str_replace("\n", "<br>", $plan['description'])?></td></tr>
+			<tr><td>標題</td><td><?=htmlentities($plan['name'])?></td></tr>
+			<tr><td>說明</td><td><?=str_replace("\n", "<br>", htmlentities($plan['description']))?></td></tr>
 			<tr><td>標籤</td><td><?php
 					$plan['tag'] = json_decode($plan['tag'], true);
 					foreach ($plan['tag'] as $key => $tag) {
-						echo ($key?"、":"")."<mark>$tag</mark>";
+						echo ($key?"、":"")."<mark>".htmlentities($tag)."</mark>";
 					}
 				?></td></tr>
 			<tr><td>附件</td><td><?php
@@ -53,7 +54,7 @@ require("header.php");
 						$sthfile->execute();
 						$D["file"][$file] = $sthfile->fetch(PDO::FETCH_ASSOC);
 						?>
-						<a href="<?=$C["path"]?>/file/<?=$file?>/"><?=$D["file"][$file]["name"]?></a><br>
+						<a href="<?=$C["path"]?>/file/<?=$file?>/"><?=htmlentities($D["file"][$file]["name"])?></a><br>
 						<?php
 					}
 				?></td></tr>
