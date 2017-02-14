@@ -1,8 +1,6 @@
 RewriteEngine On
 RewriteBase /teachres/
 
-RewriteRule ^search/?$ search.php [PT,L]
-RewriteRule ^manage/?$ manage.php [PT,L]
 RewriteRule ^manageplans/?$ plans.php?admin [PT,L]
 RewriteRule ^managefiles/?$ files.php?admin [PT,L]
 RewriteRule ^plans/?$ plans.php [PT,L]
