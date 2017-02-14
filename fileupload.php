@@ -90,6 +90,7 @@ if (isset($_POST["filename"]) && isset($_FILES["file"])) {
 		var temp=filelist.children[0].cloneNode(true);
 		filecnt++;
 		temp.id="file"+filecnt;
+		temp.children[0].children[0].value="";
 		temp.children[1].children[0].value="";
 		filelist.appendChild(temp);
 	}
