@@ -29,6 +29,10 @@ $planlist = $sth->fetchAll(PDO::FETCH_ASSOC);
 body {
 	padding-top: 4.5rem;
 }
+.filtericon {
+	width: 18px;
+	text-align: center;
+}
 </style>
 
 </head>
@@ -137,18 +141,18 @@ function filter(){
 }
 </script>
 <div class="container">
-	<h2>教案<?=($admin?"管理":"查詢")?><?php if($admin){ ?> <a class="btn btn-sm btn-primary" href="<?=$C["path"]?>/newplan/" role="button">新增</a><?php }?></h2>
+	<h2>教案<?=($admin?"管理":"查詢")?><?php if($admin){ ?> <a class="btn btn-sm btn-primary" href="<?=$C["path"]?>/newplan/" role="button"><i class="fa fa-plus" aria-hidden="true"></i> 新增</a><?php }?></h2>
 	<div class="row">
-		<label class="col-sm-2 form-control-label">學年度</label>
-		<div class="col-sm-10 form-inline">
+		<label class="col-sm-3 col-md-2 form-control-label"><i class="fa fa-calendar filtericon" aria-hidden="true"></i> 學年度</label>
+		<div class="col-sm-9 col-md-10 form-inline">
 			<input type="number" class="form-control" placeholder="起始" id="filter_year1" value="<?=$minyear?>" onkeyup="filter()" style="max-width: 45%;">
 			<span class="form-control-static">至</span>
 			<input type="number" class="form-control" placeholder="結束" id="filter_year2" value="<?=$maxyear?>" onkeyup="filter()" style="max-width: 45%;">
 		</div>
 	</div>
 	<div class="row">
-		<label class="col-sm-2 form-control-label">分類</label>
-		<div class="col-sm-10">
+		<label class="col-sm-3 col-md-2 form-control-label"><i class="fa fa-bookmark filtericon" aria-hidden="true"></i> 分類</label>
+		<div class="col-sm-9 col-md-10">
 			<div class="checkbox">
 			<?php
 			$sth = $G["db"]->prepare("SELECT * FROM `plan_type` ORDER BY `id` ASC");
@@ -164,21 +168,15 @@ function filter(){
 		</div>
 	</div>
 	<div class="row">
-		<label class="col-sm-2 form-control-label" for="filter_name">標題</label>
-		<div class="col-sm-10">
+		<label class="col-sm-3 col-md-2 form-control-label" for="filter_name"><i class="fa fa-header filtericon" aria-hidden="true"></i> 標題</label>
+		<div class="col-sm-9 col-md-10">
 			<input type="text" class="form-control" id="filter_name" onkeyup="filter()">
 		</div>
 	</div>
 	<div class="row">
-		<label class="col-sm-2 form-control-label">標籤</label>
-		<div class="col-sm-10">
+		<label class="col-sm-3 col-md-2 form-control-label"><i class="fa fa-tags filtericon" aria-hidden="true"></i> 標籤</label>
+		<div class="col-sm-9 col-md-10">
 			<div class="checkbox">
-				<label class="checkbox-inline" onclick="changeandor();filter();" data-toggle="tooltip" data-placement="bottom" title="同時包含這些標籤">
-					<input type="radio" name="tagandor" id="tagand" value="and">AND
-				</label>
-				<label class="checkbox-inline" onclick="changeandor();filter();" data-toggle="tooltip" data-placement="bottom" title="包含任一標籤">
-					<input type="radio" name="tagandor" id="tagor" value="or" checked>OR
-				</label>
 				<?php
 				foreach ($D['tag'] as $tag => $cnt) {
 					?><label class="checkbox-inline" onclick="filter()">
@@ -186,11 +184,18 @@ function filter(){
 					</label> <?php
 				}
 				?>
+				<br>
 				<label class="checkbox-inline" onclick="filter()" data-toggle="tooltip" data-placement="bottom" title="僅在OR模式作用">
 					<input type="checkbox" id="filter_notag" checked>無標籤
 				</label>
-				<button type="button" class="btn btn-primary btn-sm" onclick="alltag();filter();">全選</button> 
-				<button type="button" class="btn btn-primary btn-sm" onclick="notag();filter();">全不選</button>
+				<label class="checkbox-inline" onclick="changeandor();filter();" data-toggle="tooltip" data-placement="bottom" title="同時包含這些標籤">
+					<input type="radio" name="tagandor" id="tagand" value="and">AND
+				</label>
+				<label class="checkbox-inline" onclick="changeandor();filter();" data-toggle="tooltip" data-placement="bottom" title="包含任一標籤">
+					<input type="radio" name="tagandor" id="tagor" value="or" checked>OR
+				</label>
+				<button type="button" class="btn btn-default btn-sm" onclick="alltag();filter();">全選</button> 
+				<button type="button" class="btn btn-default btn-sm" onclick="notag();filter();">全不選</button>
 			</div>
 		</div>
 	</div>
@@ -218,11 +223,11 @@ function filter(){
 					}
 				?></td>
 				<td>
-				<a class="btn btn-sm btn-primary" href="<?=$C["path"]?>/plan/<?=$plan['id']?>/" role="button">查看</a>
+				<a class="btn btn-sm btn-success" href="<?=$C["path"]?>/plan/<?=$plan['id']?>/" role="button"><i class="fa fa-eye" aria-hidden="true"></i> 查看</a>
 				<?php
 				if ($admin) {
 				?>
-				<a class="btn btn-sm btn-primary" href="<?=$C["path"]?>/editplan/<?=$plan['id']?>/" role="button">編輯</a>
+				<a class="btn btn-sm btn-primary" href="<?=$C["path"]?>/editplan/<?=$plan['id']?>/" role="button"><i class="fa fa-pencil" aria-hidden="true"></i> 編輯</a>
 				<?php
 				}
 				?>
@@ -242,6 +247,7 @@ require("footer.php");
 <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+<script src="https://use.fontawesome.com/4c0a12abc0.js"></script>
 <script type="text/javascript">
 $(function () {
 	$('[data-toggle="tooltip"]').tooltip()

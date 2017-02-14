@@ -30,6 +30,10 @@ $planid = $_GET["id"] ?? "";
 body {
 	padding-top: 4.5rem;
 }
+.itemicon {
+	width: 18px;
+	text-align: center;
+}
 </style>
 
 </head>
@@ -157,17 +161,17 @@ require("func/tag.php");
 if ($showform) {
 ?>
 <div class="container">
-	<h2><?=$typename?>教案 <?php if($type=="edit"){ ?><a class="btn btn-sm btn-primary" href="<?=$C["path"]?>/plan/<?=$planid?>/" role="button" target="_blank">查看</a><?php } ?></h2>
+	<h2><?=$typename?>教案 <?php if($type=="edit"){ ?><a class="btn btn-sm btn-info" href="<?=$C["path"]?>/plan/<?=$planid?>/" role="button" target="_blank"><i class="fa fa-eye" aria-hidden="true"></i> 查看</a><?php } ?></h2>
 	<form action="" method="post">
 		<div class="row">
-			<label class="col-sm-2 form-control-label">學年度</label>
-			<div class="col-sm-10">
+			<label class="col-sm-3 col-md-2 form-control-label"><i class="fa fa-calendar itemicon" aria-hidden="true"></i> 學年度</label>
+			<div class="col-sm-9 col-md-10">
 				<input class="form-control" type="number" name="year" value="<?=$D["plan"]["year"]?>" min="0" max="99999999" required>
 			</div>
 		</div>
 		<div class="row">
-			<label class="col-sm-2 form-control-label">分類</label>
-			<div class="col-sm-10">
+			<label class="col-sm-3 col-md-2 form-control-label"><i class="fa fa-bookmark itemicon" aria-hidden="true"></i> 分類</label>
+			<div class="col-sm-9 col-md-10">
 				<select name="type" class="form-control">
 				<?php
 				foreach ($D['plantype'] as $id => $plantype) {
@@ -178,36 +182,36 @@ if ($showform) {
 			</div>
 		</div>
 		<div class="row">
-			<label class="col-sm-2 form-control-label">標題</label>
-			<div class="col-sm-10">
+			<label class="col-sm-3 col-md-2 form-control-label"><i class="fa fa-header itemicon" aria-hidden="true"></i> 標題</label>
+			<div class="col-sm-9 col-md-10">
 				<input class="form-control" type="text" name="name" value="<?=$D["plan"]["name"]?>" required>
 			</div>
 		</div>
 		<div class="row">
-			<label class="col-sm-2 form-control-label">說明</label>
-			<div class="col-sm-10">
+			<label class="col-sm-3 col-md-2 form-control-label"><i class="fa fa-info itemicon" aria-hidden="true"></i> 說明</label>
+			<div class="col-sm-9 col-md-10">
 				<textarea class="form-control" name="description"><?=$D["plan"]["description"]?></textarea>
 			</div>
 		</div>
 		<div class="row">
-			<label class="col-sm-2 form-control-label">標籤</label>
-			<div class="col-sm-10">
+			<label class="col-sm-3 col-md-2 form-control-label"><i class="fa fa-tags itemicon" aria-hidden="true"></i> 標籤</label>
+			<div class="col-sm-9 col-md-10">
 				<div class="checkbox">
 					<?php
 					foreach ($D['tag'] as $tag => $cnt) {
-						?><label><input type="checkbox" name="tag[]" value="<?=htmlentities($tag)?>" <?=(in_array($tag, $D["plan"]["tag"])?"checked":"")?>><?=htmlentities($tag)?>(<?=$cnt?>)</label> <?php
+						?><label><input type="checkbox" name="tag[]" value="<?=htmlentities($tag)?>" <?=(in_array($tag, $D["plan"]["tag"])?"checked":"")?>><mark><?=htmlentities($tag)?>(<?=$cnt?>)</mark></label> <?php
 					}
 					?>
 					<div id="taglist">
 						<input type="text" name="newtag[]" placeholder="新標籤" maxlength="15">
 					</div>
-					<button type="button" class="btn btn-default btn-sm" onclick="moretag()">更多標籤</button>
+					<button type="button" class="btn btn-default btn-sm" onclick="moretag()"><i class="fa fa-tag" aria-hidden="true"></i> 更多標籤</button>
 				</div>
 			</div>
 		</div>
 		<div class="row">
-			<label class="col-sm-2 form-control-label">檔案</label>
-			<div class="col-sm-10">
+			<label class="col-sm-3 col-md-2 form-control-label"><i class="fa fa-files-o itemicon" aria-hidden="true"></i> 檔案</label>
+			<div class="col-sm-9 col-md-10">
 				<div class="checkbox">
 					<?php
 					foreach ($D["plan"]["file"] as $file) {
@@ -215,7 +219,7 @@ if ($showform) {
 						<div id="file_<?=$file?>">
 							<a href="<?=$C["path"]?>/file/<?=$file?>/" target="_blank"><?=htmlentities($D["file"][$file]["name"])?></a>
 							<input type="hidden" name="file[]" value="<?=$file?>">
-							<button type="button" class="btn btn-danger btn-sm" onclick="removefile('<?=$file?>')">移除</button>
+							<button type="button" class="btn btn-danger btn-sm" onclick="removefile('<?=$file?>')"><i class="fa fa-trash-o" aria-hidden="true"></i> 移除</button>
 						</div>
 						<?php
 					}
@@ -223,32 +227,32 @@ if ($showform) {
 					<div id="filelist">
 						<input type="text" name="newfile[]" placeholder="新檔案" hidden>
 					</div>
-					<button type="button" class="btn btn-default btn-sm" onclick="pickfile()">更多檔案</button>
+					<button type="button" class="btn btn-default btn-sm" onclick="pickfile()"><i class="fa fa-file" aria-hidden="true"></i> 更多檔案</button>
 				</div>
 			</div>
 		</div>
 		<div class="row">
-			<label class="col-sm-2 form-control-label">狀態</label>
-			<div class="col-sm-10">
+			<label class="col-sm-3 col-md-2 form-control-label"><i class="fa fa-eye itemicon" aria-hidden="true"></i> 狀態</label>
+			<div class="col-sm-9 col-md-10">
 				<label>
-					<input type="radio" name="inuse" value="1" <?=($D["plan"]["inuse"] == 1?"checked":"")?>><?=$G["inuse"][1]?>
+					<input type="radio" name="inuse" value="1" <?=($D["plan"]["inuse"] == 1?"checked":"")?>> <i class="fa fa-eye" aria-hidden="true"></i> <?=$G["inuse"][1]?>
 				</label>
 				<label>
-					<input type="radio" name="inuse" value="0" <?=($D["plan"]["inuse"] == 0?"checked":"")?>><?=$G["inuse"][0]?>
+					<input type="radio" name="inuse" value="0" <?=($D["plan"]["inuse"] == 0?"checked":"")?>> <i class="fa fa-eye-slash" aria-hidden="true"></i> <?=$G["inuse"][0]?>
 				</label>
 			</div>
 		</div>
 		<div class="row">
-			<div class="col-sm-10 offset-sm-2">
-				<button type="submit" name="action" value="edit" class="btn btn-primary"><?=$typename?></button>
+			<div class="col-sm-9 col-md-10 offset-sm-2">
+				<button type="submit" name="action" value="edit" class="btn btn-success"><i class="fa fa-pencil" aria-hidden="true"></i> <?=$typename?></button>
 			</div>
 		</div>
 		<?php
 		if ($type == "edit") {
 		?>
 		<div class="row">
-			<div class="col-sm-10 offset-sm-2">
-				<button type="submit" name="action" value="del" class="btn btn-danger">刪除</button>
+			<div class="col-sm-9 col-md-10 offset-sm-2">
+				<button type="submit" name="action" value="del" class="btn btn-danger"><i class="fa fa-trash-o" aria-hidden="true"></i> 刪除</button>
 				<label>
 					<input type="checkbox" name="del">確認刪除
 				</label>
@@ -286,5 +290,6 @@ require("footer.php");
 <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+<script src="https://use.fontawesome.com/4c0a12abc0.js"></script>
 </body>
 </html>

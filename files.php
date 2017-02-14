@@ -31,29 +31,29 @@ body {
 require("header.php");
 ?>
 <div class="container">
-	<h2>檔案<?=($admin?"管理":"查詢")?><?php if($admin){ ?> <a class="btn btn-sm btn-primary" href="<?=$C["path"]?>/newfile/" role="button">新增</a><?php }?></h2>
+	<h2>檔案<?=($admin?"管理":"查詢")?><?php if($admin){ ?> <a class="btn btn-sm btn-primary" href="<?=$C["path"]?>/newfile/" role="button"><i class="fa fa-upload" aria-hidden="true"></i> 上傳</a><?php }?></h2>
 	<div class="table-responsive">
 		<table class="table">
-			<th>編號</th>
 			<th>名稱</th>
 			<th>動作</th>
 			<?php
 			foreach ($filelist as $file) {
 			?>
 			<tr>
-				<td><?=$file['id']?></td>
 				<td><?=htmlentities($file['name'])?></td>
 				<td>
-					<a class="btn btn-sm btn-primary" href="<?=$C["path"]?>/file/<?=$file['id']?>/" role="button">查看</a>
+					<?php
+					if ($pick) {
+					?>
+					<button class="btn btn-sm btn-info" onclick="window.opener.morefile('<?=$file['id']?>');window.close();"><i class="fa fa-check" aria-hidden="true"></i> 選取</button>
+					<?php
+					}
+					?>
+					<a class="btn btn-sm btn-success" href="<?=$C["path"]?>/file/<?=$file['id']?>/" role="button"><i class="fa fa-eye" aria-hidden="true"></i> 查看</a>
 					<?php
 					if ($admin) {
 					?>
-					<a class="btn btn-sm btn-primary" href="<?=$C["path"]?>/editfile/<?=$file['id']?>/" role="button">管理</a>
-					<?php
-					}
-					if ($pick) {
-					?>
-					<button class="btn btn-sm btn-success" onclick="window.opener.morefile('<?=$file['id']?>');window.close();">選取</button>
+					<a class="btn btn-sm btn-primary" href="<?=$C["path"]?>/editfile/<?=$file['id']?>/" role="button"><i class="fa fa-pencil" aria-hidden="true"></i> 管理</a>
 					<?php
 					}
 					?>
@@ -73,5 +73,6 @@ require("footer.php");
 <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+<script src="https://use.fontawesome.com/4c0a12abc0.js"></script>
 </body>
 </html>

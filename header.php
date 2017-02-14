@@ -6,20 +6,20 @@
 	<div class="collapse navbar-collapse" id="navbarCollapse">
 		<ul class="navbar-nav mr-auto">
 			<li class="nav-item">
-				<a class="nav-link" href="<?=$C["path"]?>/">首頁</a>
+				<a class="nav-link" href="<?=$C["path"]?>/"><i class="fa fa-home" aria-hidden="true"></i> 首頁</a>
 			</li>
 			<li class="nav-item dropdown">
-				<a class="nav-link dropdown-toggle" href="#" id="search" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">查詢</a>
+				<a class="nav-link dropdown-toggle" href="#" id="search" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><i class="fa fa-search" aria-hidden="true"></i> 查詢</a>
 				<div class="dropdown-menu" aria-labelledby="search">
-					<a class="dropdown-item" href="<?=$C["path"]?>/plans/">教案</a>
-					<a class="dropdown-item" href="<?=$C["path"]?>/files/">檔案</a>
+					<a class="dropdown-item" href="<?=$C["path"]?>/plans/"><i class="fa fa-sticky-note-o" aria-hidden="true"></i> 教案</a>
+					<a class="dropdown-item" href="<?=$C["path"]?>/files/"><i class="fa fa-file" aria-hidden="true"></i> 檔案</a>
 				</div>
 			</li>
 			<li class="nav-item dropdown">
-				<a class="nav-link dropdown-toggle" href="#" id="manage" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">管理</a>
+				<a class="nav-link dropdown-toggle" href="#" id="manage" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><i class="fa fa-pencil" aria-hidden="true"></i> 管理</a>
 				<div class="dropdown-menu" aria-labelledby="manage">
-					<a class="dropdown-item" href="<?=$C["path"]?>/manageplans/">教案</a>
-					<a class="dropdown-item" href="<?=$C["path"]?>/managefiles/">檔案</a>
+					<a class="dropdown-item" href="<?=$C["path"]?>/manageplans/"><i class="fa fa-sticky-note-o" aria-hidden="true"></i> 教案</a>
+					<a class="dropdown-item" href="<?=$C["path"]?>/managefiles/"><i class="fa fa-file" aria-hidden="true"></i> 檔案</a>
 				</div>
 			</li>
 		</ul>

@@ -68,7 +68,7 @@ if (isset($_POST["filename"]) && isset($_FILES["file"])) {
 }
 ?>
 <div class="container">
-	<h2>新增檔案</h2>
+	<h2>上傳檔案</h2>
 	<form action="" method="post" enctype="multipart/form-data">
 		<div id="filelist">
 			<div class="form-group" id="file1">
@@ -76,8 +76,8 @@ if (isset($_POST["filename"]) && isset($_FILES["file"])) {
 				<label>檔名: <input type="text" name="filename[]" size="30"></label>
 			</div>
 		</div>
-		<button type="button" class="btn btn-default" onclick="morefile()">更多檔案</button>
-		<button type="submit" class="btn btn-primary">上傳</button>
+		<button type="button" class="btn btn-default" onclick="morefile()"><i class="fa fa-file" aria-hidden="true"></i> 更多檔案</button>
+		<button type="submit" class="btn btn-success"><i class="fa fa-upload" aria-hidden="true"></i> 上傳</button>
 	</form>
 </div>
 <script type="text/javascript">
@@ -103,5 +103,6 @@ require("footer.php");
 <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+<script src="https://use.fontawesome.com/4c0a12abc0.js"></script>
 </body>
 </html>
