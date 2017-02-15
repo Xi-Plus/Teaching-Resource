@@ -6,7 +6,8 @@ $fileid = $_GET['id'] ?? "";
 $sth = $G["db"]->prepare("SELECT * FROM `file` WHERE `id` = :id");
 $sth->bindValue(':id', $fileid);
 $sth->execute();
-$file=$sth->fetch(PDO::FETCH_ASSOC);
+$file = $sth->fetch(PDO::FETCH_ASSOC);
+$filelost = !file_exists("file/".$file["filename"]);
 ?>
 <html lang="zh-Hant-TW">
 <head>
@@ -24,10 +25,8 @@ body {
 	text-align: center;
 }
 </style>
-
 </head>
 <body>
-
 <?php
 require("header.php");
 if ($file === false) {
@@ -38,6 +37,13 @@ if ($file === false) {
 	</div>
 	<?php
 	$showform = false;
+} else if ($filelost) {
+?>
+<div class="alert alert-warning alert-dismissible" role="alert">
+	<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	檔案遺失
+</div>
+<?php
 }
 if ($showform) {
 ?>
