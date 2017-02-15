@@ -34,8 +34,14 @@ if (isset($_POST["filename"]) && isset($_FILES["file"])) {
 			if ($file===false) {
 				$fileid=substr(md5(uniqid(rand(),true)), 0, 8);
 				$filename=md5(uniqid(rand(),true));
-				$sth = $G["db"]->prepare("INSERT INTO `file` (`name`, `filename`, `filehash`, `id`) VALUES (:name, :filename, :filehash, :id);");
+				$finfo = finfo_open(FILEINFO_MIME_TYPE);
+				$fileext = finfo_file($finfo, $_FILES["file"]["tmp_name"][$i]);
+				finfo_close($finfo);
+				$sth = $G["db"]->prepare("INSERT INTO `file` (`name`, `extension`, `MIME`, `MIME2`, `filename`, `filehash`, `id`) VALUES (:name, :extension, :MIME, :MIME2, :filename, :filehash, :id);");
 				$sth->bindValue(":name", $realname);
+				$sth->bindValue(":extension", pathinfo($_FILES["file"]["name"][$i], PATHINFO_EXTENSION));
+				$sth->bindValue(":MIME", $_FILES["file"]["type"][$i]);
+				$sth->bindValue(":MIME2", $fileext);
 				$sth->bindValue(":filename", $filename);
 				$sth->bindValue(":filehash", $filehash);
 				$sth->bindValue(":id", $fileid);
@@ -44,7 +50,7 @@ if (isset($_POST["filename"]) && isset($_FILES["file"])) {
 				?>
 				<div class="alert alert-success alert-dismissible" role="alert">
 				  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-				  <?=$_FILES['file']['name'][$i]?> (<?=htmlentities($realname)?>)上傳成功，<a href="<?=$C["path"]?>/file/<?=$fileid?>/" target="_blank">查看</a>、<a href="<?=$C["path"]?>/editfile/<?=$fileid?>/" target="_blank">編輯</a>
+				  <?=$_FILES['file']['name'][$i]?> (<?=htmlentities($realname)?>) 上傳成功，<a href="<?=$C["path"]?>/file/<?=$fileid?>/" target="_blank">查看</a>、<a href="<?=$C["path"]?>/editfile/<?=$fileid?>/" target="_blank">編輯</a>
 				</div>
 				<?php
 			} else {
@@ -83,8 +89,9 @@ if (isset($_POST["filename"]) && isset($_FILES["file"])) {
 <script type="text/javascript">
 	var filecnt=1;
 	function getfilename(e){
-		console.log(e.parentNode);
-		e.parentNode.parentNode.children[1].children[0].value=e.files[0].name;
+		var filename = e.files[0].name.split(".");
+		filename.pop();
+		e.parentNode.parentNode.children[1].children[0].value = filename.join(".");
 	}
 	function morefile(){
 		var temp=filelist.children[0].cloneNode(true);

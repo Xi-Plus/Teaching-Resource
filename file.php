@@ -53,10 +53,17 @@ if ($showform) {
 		<table class="table">
 			<tr><td><i class="fa fa-header itemicon" aria-hidden="true"></i> 名稱</td><td><?=htmlentities($file['name'])?></td></tr>
 			<tr><td><i class="fa fa-file itemicon" aria-hidden="true"></i> 檔案類型</td><td>
-				<?php
-				$finfo = finfo_open(FILEINFO_MIME_TYPE);
-				echo finfo_file($finfo, "file/".$file['filename']);
-				finfo_close($finfo);
+				副檔名：<?=htmlentities($file['extension'])?><br>
+				MIME <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="bottom" title="上傳時瀏覽器提供"></i>：<?=htmlentities($file['MIME'])?><br>
+				MIME <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="bottom" title="上傳時檢測 (PHP finfo class)"></i>：<?=htmlentities($file['MIME2'])?><br>
+				MIME <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="bottom" title="即時檢測 (PHP finfo class)"></i>：<?php
+				if ($filelost) {
+					echo "檔案遺失";
+				} else {
+					$finfo = finfo_open(FILEINFO_MIME_TYPE);
+					echo finfo_file($finfo, "file/".$file['filename']);
+					finfo_close($finfo);
+				}
 				?>
 			</td></tr>
 			<tr><td><i class="fa fa-eye itemicon" aria-hidden="true"></i> 狀態</td><td><?=$G["inuse"][$file['inuse']]?></td></tr>
@@ -80,7 +87,6 @@ if ($showform) {
 	</div>
 </div>
 
-
 <?php
 }
 require("footer.php");
@@ -89,5 +95,10 @@ require("footer.php");
 <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
 <script src="https://use.fontawesome.com/4c0a12abc0.js"></script>
+<script type="text/javascript">
+$(function () {
+	$('[data-toggle="tooltip"]').tooltip()
+})
+</script>
 </body>
 </html>

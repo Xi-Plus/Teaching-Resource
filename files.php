@@ -35,12 +35,16 @@ require("header.php");
 	<div class="table-responsive">
 		<table class="table">
 			<th>名稱</th>
+			<th>副檔名</th>
+			<th>MIME <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="bottom" title="上傳檢測 (PHP finfo class)"></i></th>
 			<th>動作</th>
 			<?php
 			foreach ($filelist as $file) {
 			?>
 			<tr>
 				<td><?=htmlentities($file['name'])?></td>
+				<td><?=htmlentities($file['extension'])?></td>
+				<td><?=htmlentities($file['MIME2'])?></td>
 				<td>
 					<?php
 					if ($pick) {
@@ -74,5 +78,10 @@ require("footer.php");
 <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
 <script src="https://use.fontawesome.com/4c0a12abc0.js"></script>
+<script type="text/javascript">
+$(function () {
+	$('[data-toggle="tooltip"]').tooltip()
+})
+</script>
 </body>
 </html>
