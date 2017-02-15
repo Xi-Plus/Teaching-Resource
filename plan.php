@@ -2,6 +2,7 @@
 <?php
 require('config/config.php');
 require('func/plantype.php');
+$showform = true;
 $planid = $_GET['id'] ?? "";
 $sth = $G["db"]->prepare("SELECT * FROM `plan` WHERE `id` = :id");
 $sth->bindValue(':id', $planid);
@@ -30,14 +31,19 @@ body {
 
 <?php
 require("header.php");
+if ($plan === false) {
+	?>
+	<div class="alert alert-danger alert-dismissible" role="alert">
+		<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		無此教案
+	</div>
+	<?php
+	$showform = false;
+}
+if ($showform) {
 ?>
 <div class="container">
 	<h2>教案詳情</span></h2>
-	<?php
-	if ($plan===false) {
-		echo "找不到";
-	} else {
-	?>
 	<div class="table-responsive">
 		<table class="table">
 			<tr><td><i class="fa fa-calendar itemicon" aria-hidden="true"></i> 學年度</td><td><?=$plan['year']?></td></tr>
@@ -71,13 +77,11 @@ require("header.php");
 				?> <?=$G["inuse"][$plan['inuse']]?></td></tr>
 		</table>
 	</div>
-	<?php
-	}
-	?>
 </div>
 
 
 <?php
+}
 require("footer.php");
 ?>
 <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>

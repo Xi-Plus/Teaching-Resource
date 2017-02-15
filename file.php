@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <?php
 require('config/config.php');
+$showform = true;
 $fileid = $_GET['id'] ?? "";
 $sth = $G["db"]->prepare("SELECT * FROM `file` WHERE `id` = :id");
 $sth->bindValue(':id', $fileid);
@@ -29,14 +30,19 @@ body {
 
 <?php
 require("header.php");
+if ($file === false) {
+	?>
+	<div class="alert alert-danger alert-dismissible" role="alert">
+		<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		無此檔案
+	</div>
+	<?php
+	$showform = false;
+}
+if ($showform) {
 ?>
 <div class="container">
 	<h2>檔案詳情</h2>
-	<?php
-	if ($file===false) {
-		echo "找不到";
-	} else {
-	?>
 	<div class="table-responsive">
 		<table class="table">
 			<tr><td><i class="fa fa-header itemicon" aria-hidden="true"></i> 名稱</td><td><?=htmlentities($file['name'])?></td></tr>
@@ -66,13 +72,11 @@ require("header.php");
 			</td></tr>
 		</table>
 	</div>
-	<?php
-	}
-	?>
 </div>
 
 
 <?php
+}
 require("footer.php");
 ?>
 <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
