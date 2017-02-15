@@ -107,7 +107,7 @@ if ($showform) {
 	<h2>編輯檔案 <a class="btn btn-sm btn-info" href="<?=$C["path"]?>/file/<?=$fileid?>/" role="button" target="_blank"><i class="fa fa-eye" aria-hidden="true"></i> 查看</a></h2>
 	<form action="" method="post">
 		<div class="row">
-			<label class="col-sm-2 form-control-label"><i class="fa fa-header filtericon" aria-hidden="true"></i> 名稱</label>
+			<label class="col-sm-2 form-control-label"><i class="fa fa-header itemicon" aria-hidden="true"></i> 名稱</label>
 			<div class="col-sm-10">
 				<input class="form-control" type="text" name="name" value="<?=$D["file"]["name"]?>" required>
 			</div>
