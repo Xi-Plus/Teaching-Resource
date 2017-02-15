@@ -109,7 +109,7 @@ if ($showform) {
 		<div class="row">
 			<label class="col-sm-2 form-control-label"><i class="fa fa-header itemicon" aria-hidden="true"></i> 名稱</label>
 			<div class="col-sm-10">
-				<input class="form-control" type="text" name="name" value="<?=$D["file"]["name"]?>" required>
+				<input class="form-control" type="text" name="name" value="<?=$D["file"]["name"]?>" pattern="<?=$C["FilenamePattern"]?>" title="<?=$C["FilenameTitle"]?>" required>
 			</div>
 		</div>
 		<div class="row">

@@ -73,7 +73,7 @@ if (isset($_POST["filename"]) && isset($_FILES["file"])) {
 		<div id="filelist">
 			<div class="form-group" id="file1">
 				<label>選擇檔案: <input type="file" name="file[]" accept="audio/*, video/*, image/*, application/pdf, application/msword, application/vnd.ms-excel, application/vnd.ms-powerpoint, text/plain" onchange="getfilename(this)"></label>
-				<label>檔名: <input type="text" name="filename[]" size="30"></label>
+				<label>檔名: <input type="text" name="filename[]" size="30" pattern="<?=$C["FilenamePattern"]?>" title="<?=$C["FilenameTitle"]?>" ></label>
 			</div>
 		</div>
 		<button type="button" class="btn btn-default" onclick="morefile()"><i class="fa fa-file" aria-hidden="true"></i> 更多檔案</button>
