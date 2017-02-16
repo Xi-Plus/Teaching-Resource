@@ -34,7 +34,10 @@ $D["file"] = $sth->fetch(PDO::FETCH_ASSOC);
 $sth = $G["db"]->prepare("SELECT * FROM `plan` WHERE JSON_CONTAINS(`file`, :file)");
 $sth->bindValue(':file', json_encode([$fileid]));
 $sth->execute();
-$D["plans"] = $sth->fetchAll(PDO::FETCH_ASSOC);
+$row = $sth->fetchAll(PDO::FETCH_ASSOC);
+foreach ($row as $plan) {
+	$D["plans"][$plan["id"]] = $plan;
+}
 if ($action == "edit") {
 	$sth = $G["db"]->prepare("UPDATE `file` SET `name` = :name, `inuse` = :inuse WHERE `id` = :id");
 	$_POST["name"] = trim($_POST["name"]);
@@ -57,9 +60,26 @@ if ($action == "edit") {
 			<?=$_POST["name"]?> 編輯成功，<a href="<?=$C["path"]?>/file/<?=$fileid?>/" target="_blank">查看</a>
 		</div>
 		<?php
+		if (isset($_POST["removeuse"])) {
+			foreach ($_POST["removeuse"] as $planid) {
+				$sth = $G["db"]->prepare("SELECT `file` INTO @files FROM `plan` WHERE `id`=:planid ;
+					SELECT replace(JSON_SEARCH(@files, 'one', :fileid), '\"', '') INTO @idx;
+					UPDATE `plan` SET `file`=JSON_REMOVE(`file`, @idx) WHERE `id`=:planid;");
+				$sth->bindValue(':planid', $planid);
+				$sth->bindValue(':fileid', $fileid);
+				$sth->execute();
+				?>
+				<div class="alert alert-success alert-dismissible" role="alert">
+					<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					已從教案 <?=htmlentities($D["plans"][$planid]["name"])?> 移除此檔案，<a href="<?=$C["path"]?>/plan/<?=$planid?>/">查看</a>、<a href="<?=$C["path"]?>/editplan/<?=$planid?>/">編輯</a>
+				</div>
+				<?php
+				unset($D["plans"][$planid]);
+			}
+		}
 	}
 } else if ($action == "del") {
-	if (count($D["plans"])) {
+	if (isset($D["plans"]) && count($D["plans"])) {
 		?>
 		<div class="alert alert-danger alert-dismissible" role="alert">
 			<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -127,12 +147,17 @@ if ($showform) {
 			<label class="col-sm-2 form-control-label"><i class="fa fa-link itemicon" aria-hidden="true"></i> 使用</label>
 			<div class="col-sm-10">
 				<?php
-				foreach ($D["plans"] as $plan) {
-					?>
-					<a href="<?=$C["path"]?>/plan/<?=$plan["id"]?>/"><?=$plan["name"]?></a>
-					<a class="btn btn-sm btn-primary" href="<?=$C["path"]?>/editplan/<?=$plan['id']?>/" role="button"><i class="fa fa-pencil" aria-hidden="true"></i> 編輯</a>
-					<br>
-					<?php
+				if (isset($D["plans"])) {
+					foreach ($D["plans"] as $planid => $plan) {
+						?>
+						<a href="<?=$C["path"]?>/plan/<?=$plan["id"]?>/"><?=htmlentities($plan["name"])?></a>
+						<a class="btn btn-sm btn-primary" href="<?=$C["path"]?>/editplan/<?=$plan['id']?>/" role="button"><i class="fa fa-pencil" aria-hidden="true"></i> 編輯</a>
+						<label>
+							<input type="checkbox" name="removeuse[]" value="<?=$plan['id']?>"> 從教案移除此檔案
+						</label>
+						<br>
+						<?php
+					}
 				}
 				?>
 			</div>
@@ -145,7 +170,7 @@ if ($showform) {
 		<div class="row">
 			<div class="col-sm-10 offset-sm-2">
 				<?php
-				if (count($D["plans"])) {
+				if (isset($D["plans"]) && count($D["plans"])) {
 					?>
 					<button type="button" name="action" value="del" class="btn btn-danger disabled" data-toggle="tooltip" data-placement="bottom" title="尚有教案使用此檔案，需先從教案移除此檔案方可刪除"><i class="fa fa-trash-o" aria-hidden="true"></i> 刪除</button>
 					<label class="disabled" data-toggle="tooltip" data-placement="bottom" title="尚有教案使用此檔案，需先從教案移除此檔案方可刪除">
