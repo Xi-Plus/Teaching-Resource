@@ -78,7 +78,7 @@ if ($showform) {
 				$plans = $sth->fetchAll(PDO::FETCH_ASSOC);
 				foreach ($plans as $plan) {
 					?>
-					<a href="<?=$C["path"]?>/plan/<?=$plan["id"]?>/"><?=$plan["name"]?></a><br>
+					<a href="<?=$C["path"]?>/plan/<?=$plan["id"]?>/"><?=htmlentities($plan["name"])?></a><br>
 					<?php
 				}
 				?>
