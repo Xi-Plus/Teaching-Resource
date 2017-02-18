@@ -1,8 +1,6 @@
 <!DOCTYPE html>
 <?php
 require('config/config.php');
-require('func/plantype.php');
-require('func/tag.php');
 $admin = isset($_GET['admin']);
 if ($admin) {
 	$sthyear = $G["db"]->prepare("SELECT MIN(`year`) AS 'minyear',MAX(`year`) AS 'maxyear' FROM `plan`");
@@ -155,12 +153,10 @@ function filter(){
 		<div class="col-sm-9 col-md-10">
 			<div class="checkbox">
 			<?php
-			$sth = $G["db"]->prepare("SELECT * FROM `plan_type` ORDER BY `id` ASC");
-			$sth->execute();
-			$plantypelist=$sth->fetchAll(PDO::FETCH_ASSOC);
-			foreach ($plantypelist as $plantype) {
+			require("func/plantype.php");
+			foreach ($D['plantype'] as $id => $plantype) {
 				?><label class="checkbox-inline" onclick="filter()">
-					<input type="checkbox" id="filter_plantype" value="<?=$plantype['name']?>" checked><?=$plantype['name']?>
+					<input type="checkbox" id="filter_plantype" value="<?=$plantype?>" checked><?=$plantype?>
 				</label> <?php
 			}
 			?>
@@ -178,6 +174,7 @@ function filter(){
 		<div class="col-sm-9 col-md-10">
 			<div class="checkbox">
 				<?php
+				require('func/tag.php');
 				foreach ($D['tag'] as $tag => $cnt) {
 					?><label class="checkbox-inline" onclick="filter()">
 						<input type="checkbox" id="filter_tag" value="<?=htmlentities($tag)?>" checked><mark><?=htmlentities($tag)?></mark>
