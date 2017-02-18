@@ -26,12 +26,12 @@ require("header.php");
 		<h1><?=$C["sitename"]?></h1>
 		<p class="lead"></p>
 		<p>
-			<a class="btn btn-lg btn-primary" href="<?=$C["path"]?>/plans/" role="button">
+			<a class="btn btn-lg btn-success" href="<?=$C["path"]?>/plans/" role="button">
 				<i class="fa fa-search" aria-hidden="true"></i>
 				查詢教案
 				<i class="fa fa-sticky-note-o" aria-hidden="true"></i>
 			</a>
-			<a class="btn btn-lg btn-primary" href="<?=$C["path"]?>/files/" role="button">
+			<a class="btn btn-lg btn-success" href="<?=$C["path"]?>/files/" role="button">
 				<i class="fa fa-search" aria-hidden="true"></i>
 				查詢檔案
 				<i class="fa fa-file" aria-hidden="true"></i>
