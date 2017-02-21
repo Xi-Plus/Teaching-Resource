@@ -1,3 +1,5 @@
+Options All -Indexes
+
 RewriteEngine On
 RewriteBase /teachres/
 
