@@ -27,6 +27,7 @@ body {
 
 <?php
 require("header.php");
+
 $sth = $G["db"]->prepare("SELECT * FROM `file` WHERE `id` = :id");
 $sth->bindValue(":id", $fileid);
 $sth->execute();
@@ -38,7 +39,15 @@ $row = $sth->fetchAll(PDO::FETCH_ASSOC);
 foreach ($row as $plan) {
 	$D["plans"][$plan["id"]] = $plan;
 }
-if ($action == "edit") {
+if (!$U["islogin"]) {
+	?>
+	<div class="alert alert-danger alert-dismissible" role="alert">
+		<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		此功能需要驗證帳號，請<a href="<?=$C["path"]?>/login/">登入</a>
+	</div>
+	<?php
+	$showform = false;
+} else if ($action == "edit") {
 	$sth = $G["db"]->prepare("UPDATE `file` SET `name` = :name, `inuse` = :inuse WHERE `id` = :id");
 	$_POST["name"] = trim($_POST["name"]);
 	$_POST["name"] = preg_replace("/[[:cntrl:]]/", "", $_POST["name"]);

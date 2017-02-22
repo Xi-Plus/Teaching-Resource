@@ -41,7 +41,16 @@ body {
 
 <?php
 require("header.php");
-if ($action == "edit") {
+$showform = true;
+if (!$U["islogin"]) {
+	?>
+	<div class="alert alert-danger alert-dismissible" role="alert">
+		<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		此功能需要驗證帳號，請<a href="<?=$C["path"]?>/login/">登入</a>
+	</div>
+	<?php
+	$showform = false;
+} else if ($action == "edit") {
 	if ($type == "add") {
 		$planid = substr(md5(uniqid(rand(),true)), 0, 8);
 		$sth = $G["db"]->prepare("INSERT INTO `plan` (`year`, `type`, `name`, `description`, `tag`, `file`, `inuse`, `id`) VALUES (:year, :type, :name, :description, :tag, :file, :inuse, :id)");

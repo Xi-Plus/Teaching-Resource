@@ -20,7 +20,16 @@ body {
 
 <?php
 require("header.php");
-if (isset($_POST["filename"]) && isset($_FILES["file"])) {
+$showform = true;
+if (!$U["islogin"]) {
+	?>
+	<div class="alert alert-danger alert-dismissible" role="alert">
+		<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		此功能需要驗證帳號，請<a href="<?=$C["path"]?>/login/">登入</a>
+	</div>
+	<?php
+	$showform = false;
+} else if (isset($_POST["filename"]) && isset($_FILES["file"])) {
 	for ($i=0; $i < count($_FILES["file"]["error"]); $i++) {
 		if ($_FILES["file"]["error"][$i]==4) {
 
@@ -72,6 +81,7 @@ if (isset($_POST["filename"]) && isset($_FILES["file"])) {
 	}
 	
 }
+if ($showform) {
 ?>
 <div class="container">
 	<h2>上傳檔案</h2>
@@ -105,6 +115,7 @@ if (isset($_POST["filename"]) && isset($_FILES["file"])) {
 
 
 <?php
+}
 require("footer.php");
 ?>
 <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
