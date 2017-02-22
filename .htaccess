@@ -1,8 +1,8 @@
+Options All -Indexes
+
 RewriteEngine On
 RewriteBase /teachres/
 
-RewriteRule ^search/?$ search.php [PT,L]
-RewriteRule ^manage/?$ manage.php [PT,L]
 RewriteRule ^manageplans/?$ plans.php?admin [PT,L]
 RewriteRule ^managefiles/?$ files.php?admin [PT,L]
 RewriteRule ^plans/?$ plans.php [PT,L]
@@ -15,3 +15,6 @@ RewriteRule ^newfile/?$ fileupload.php [PT,L]
 RewriteRule ^editfile/(.*?)/?$ fileedit.php?id=$1 [PT,L]
 RewriteRule ^download/(.*?)/?$ download.php?id=$1 [PT,L]
 RewriteRule ^pickfile/?$ files.php?admin&pick [PT,L]
+RewriteRule ^account/?$ account.php [PT,L]
+RewriteRule ^login/?$ login.php?action=login [PT,L]
+RewriteRule ^logout/?$ login.php?action=logout [PT,L]
