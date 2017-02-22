@@ -154,9 +154,9 @@ function filter(){
 	<div class="row">
 		<label class="col-sm-3 col-md-2 form-control-label"><i class="fa fa-calendar filtericon" aria-hidden="true"></i> 學年度</label>
 		<div class="col-sm-9 col-md-10 form-inline">
-			<input type="number" class="form-control" placeholder="起始" id="filter_year1" value="<?=$minyear?>" onkeyup="filter()" style="max-width: 45%;">
+			<input type="number" class="form-control" placeholder="起始" id="filter_year1" value="<?=$minyear?>" oninput="filter()" style="max-width: 45%;">
 			<span class="form-control-static">至</span>
-			<input type="number" class="form-control" placeholder="結束" id="filter_year2" value="<?=$maxyear?>" onkeyup="filter()" style="max-width: 45%;">
+			<input type="number" class="form-control" placeholder="結束" id="filter_year2" value="<?=$maxyear?>" oninput="filter()" style="max-width: 45%;">
 		</div>
 	</div>
 	<div class="row">
@@ -166,8 +166,8 @@ function filter(){
 			<?php
 			require("func/plantype.php");
 			foreach ($D['plantype'] as $id => $plantype) {
-				?><label class="checkbox-inline" onclick="filter()">
-					<input type="checkbox" id="filter_plantype" value="<?=$plantype?>" checked><?=$plantype?>
+				?><label class="checkbox-inline">
+					<input type="checkbox" id="filter_plantype" value="<?=$plantype?>" checked onchange="filter()"><?=$plantype?>
 				</label> <?php
 			}
 			?>
@@ -177,7 +177,7 @@ function filter(){
 	<div class="row">
 		<label class="col-sm-3 col-md-2 form-control-label" for="filter_name"><i class="fa fa-header filtericon" aria-hidden="true"></i> 標題</label>
 		<div class="col-sm-9 col-md-10">
-			<input type="text" class="form-control" id="filter_name" onkeyup="filter()">
+			<input type="text" class="form-control" id="filter_name" oninput="filter()">
 		</div>
 	</div>
 	<div class="row">
@@ -187,20 +187,20 @@ function filter(){
 				<?php
 				require('func/tag.php');
 				foreach ($D['tag'] as $tag => $cnt) {
-					?><label class="checkbox-inline" onclick="filter()">
+					?><label class="checkbox-inline" onchange="filter()">
 						<input type="checkbox" id="filter_tag" value="<?=htmlentities($tag)?>" checked><mark><?=htmlentities($tag)?></mark>
 					</label> <?php
 				}
 				?>
 				<br>
-				<label class="checkbox-inline" onclick="filter()" data-toggle="tooltip" data-placement="bottom" title="僅在OR模式作用">
+				<label class="checkbox-inline" onchange="filter()" data-toggle="tooltip" data-placement="bottom" title="僅在OR模式作用">
 					<input type="checkbox" id="filter_notag" checked>無標籤
 				</label>
-				<label class="checkbox-inline" onclick="changeandor();filter();" data-toggle="tooltip" data-placement="bottom" title="同時包含這些標籤">
-					<input type="radio" name="tagandor" id="tagand" value="and">AND
+				<label class="checkbox-inline" data-toggle="tooltip" data-placement="bottom" title="同時包含這些標籤">
+					<input type="radio" name="tagandor" id="tagand" value="and" onchange="changeandor();filter();">AND
 				</label>
-				<label class="checkbox-inline" onclick="changeandor();filter();" data-toggle="tooltip" data-placement="bottom" title="包含任一標籤">
-					<input type="radio" name="tagandor" id="tagor" value="or" checked>OR
+				<label class="checkbox-inline" data-toggle="tooltip" data-placement="bottom" title="包含任一標籤">
+					<input type="radio" name="tagandor" id="tagor" value="or" checked onchange="changeandor();filter();">OR
 				</label>
 				<button type="button" class="btn btn-default btn-sm" onclick="alltag();filter();">全選</button> 
 				<button type="button" class="btn btn-default btn-sm" onclick="notag();filter();">全不選</button>
