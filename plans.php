@@ -150,15 +150,21 @@ function filter(){
 	}
 }
 function multiaction(){
-	var ids="";
+	var ids = [];
 	for (var i = 0; i < multi.length; i++) {
 		if (multi[i].checked) {
-			ids+=multi[i].value+",";
+			ids.push(multi[i].value);
 		}
 	}
-	console.log(ids);
-	multiview.href="<?=$C["path"]?>/plan/"+ids.substr(0, ids.length-1)+"/";
-	multiedit.href="<?=$C["path"]?>/editplans/"+ids.substr(0, ids.length-1)+"/";
+	if (ids.length == 0) {
+		multiview.classList.add("disabled");
+		multiedit.classList.add("disabled");
+	} else {
+		multiview.classList.remove("disabled");
+		multiedit.classList.remove("disabled");
+	}
+	multiview.href = "<?=$C["path"]?>/plan/"+ids.join(",")+"/";
+	multiedit.href = "<?=$C["path"]?>/editplans/"+ids.join(",")+"/";
 }
 </script>
 <div class="container">
@@ -260,11 +266,11 @@ function multiaction(){
 			<tr>
 				<td colspan="4"></td>
 				<td>
-					<a class="btn btn-sm btn-success" id="multiview" href="<?=$C["path"]?>/plan//" role="button" target="_blank"><i class="fa fa-eye" aria-hidden="true"></i> 多筆查看</a>
+					<a class="btn btn-sm btn-success disabled" id="multiview" href="<?=$C["path"]?>/plan//" role="button" target="_blank"><i class="fa fa-eye" aria-hidden="true"></i> 多筆查看</a>
 					<?php
 					if ($admin) {
 					?>
-					<a class="btn btn-sm btn-primary" id="multiedit" href="<?=$C["path"]?>/editplans//" role="button" target="_blank"><i class="fa fa-pencil" aria-hidden="true"></i> 多筆編輯</a>
+					<a class="btn btn-sm btn-primary disabled" id="multiedit" href="<?=$C["path"]?>/editplans//" role="button" target="_blank"><i class="fa fa-pencil" aria-hidden="true"></i> 多筆編輯</a>
 					<?php
 					}
 					?>
