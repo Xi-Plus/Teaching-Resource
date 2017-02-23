@@ -33,7 +33,7 @@ if (!$U["islogin"]) {
 			?>
 			<div class="alert alert-danger alert-dismissible" role="alert">
 				<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-				已有帳號 <?=$_POST["account"]?>
+				已有帳號 <?=htmlentities($_POST["account"])?>
 			</div>
 			<?php
 		} else if ($_POST["password"] === "" || $_POST["name"] === "") {
@@ -53,7 +53,7 @@ if (!$U["islogin"]) {
 			?>
 			<div class="alert alert-success alert-dismissible" role="alert">
 				<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-				已新增 <?=$_POST["name"]?>
+				已新增 <?=htmlentities($_POST["name"])?>
 			</div>
 			<?php
 		}
@@ -67,14 +67,14 @@ if (!$U["islogin"]) {
 				?>
 				<div class="alert alert-success alert-dismissible" role="alert">
 					<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-					已修改 <?=$_POST["account"]?> 的密碼
+					已修改 <?=htmlentities($_POST["account"])?> 的密碼
 				</div>
 				<?php
 			} else {
 				?>
 				<div class="alert alert-danger alert-dismissible" role="alert">
 					<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-					找不到帳號 <?=$_POST["account"]?>
+					找不到帳號 <?=htmlentities($_POST["account"])?>
 				</div>
 				<?php
 			}
@@ -88,7 +88,7 @@ if (!$U["islogin"]) {
 			?>
 			<div class="alert alert-success alert-dismissible" role="alert">
 				<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-				已修改 <?=$_POST["account"]?> 的姓名
+				已修改 <?=htmlentities($_POST["account"])?> 的姓名
 			</div>
 			<?php
 		}
@@ -102,7 +102,7 @@ if (!$U["islogin"]) {
 		?>
 		<div class="alert alert-success alert-dismissible" role="alert">
 			<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-			已刪除帳號 <?=$_POST["delete"]?>
+			已刪除帳號 <?=htmlentities($_POST["delete"])?>
 		</div>
 		<?php
 	} 
@@ -125,8 +125,8 @@ if ($showform) {
 				foreach ($D['account'] as $account) {
 					?>
 					<tr>
-						<td><?=$account["account"]?></td>
-						<td><?=$account["name"]?></td>
+						<td><?=htmlentities($account["account"])?></td>
+						<td><?=htmlentities($account["name"])?></td>
 						<td>
 							<button type="submit" name="delete" value="<?=$account["account"]?>" class="btn btn-danger btn-sm"><i class="fa fa-trash" aria-hidden="true"></i> 刪除</button>
 						</td>
