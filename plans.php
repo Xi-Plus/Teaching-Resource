@@ -79,18 +79,19 @@ function filter(){
 	console.log("filter");
 	var year1 = parseInt(filter_year1.value);
 	var year2 = parseInt(filter_year2.value);
-	for (var i = 0; i < plantable.children.length; i++) {
+	var plantablelen = plantable.children.length-1;
+	for (var i = 0; i < plantablelen; i++) {
 		plantable.children[i].hidden = false;
 	}
 	if (!isNaN(year1)) {
-		for (var i = 0; i < plantable.children.length; i++) {
+		for (var i = 0; i < plantablelen; i++) {
 			if (parseInt(plantable.children[i].children[0].innerText) < year1) {
 				plantable.children[i].hidden = true;
 			}
 		}
 	}
 	if (!isNaN(year2)) {
-		for (var i = 0; i < plantable.children.length; i++) {
+		for (var i = 0; i < plantablelen; i++) {
 			if (parseInt(plantable.children[i].children[0].innerText) > year2) {
 				plantable.children[i].hidden = true;
 			}
@@ -100,13 +101,13 @@ function filter(){
 	for (var i = 0; i < filter_plantype.length; i++) {
 		plantype[filter_plantype[i].value] = filter_plantype[i].checked;
 	}
-	for (var i = 0; i < plantable.children.length; i++) {
+	for (var i = 0; i < plantablelen; i++) {
 		if (!plantype[plantable.children[i].children[1].innerText]) {
 			plantable.children[i].hidden = true;
 		}
 	}
 	if (filter_name.value != "") {
-		for (var i = 0; i < plantable.children.length; i++) {
+		for (var i = 0; i < plantablelen; i++) {
 			if (plantable.children[i].children[2].innerText.search(filter_name.value) == -1) {
 				plantable.children[i].hidden = true;
 			}
@@ -120,7 +121,7 @@ function filter(){
 			tag.push(filter_tag[i].value);
 		}
 	}
-	for (var i = 0; i < plantable.children.length; i++) {
+	for (var i = 0; i < plantablelen; i++) {
 		var tagtemp = [];
 		for (var j = 0; j < plantable.children[i].children[3].children.length; j++) {
 			tagtemp.push(plantable.children[i].children[3].children[j].innerText);
@@ -147,6 +148,17 @@ function filter(){
 			plantable.children[i].hidden = true;
 		}
 	}
+}
+function multiaction(){
+	var ids="";
+	for (var i = 0; i < multi.length; i++) {
+		if (multi[i].checked) {
+			ids+=multi[i].value+",";
+		}
+	}
+	console.log(ids);
+	multiview.href="<?=$C["path"]?>/plan/"+ids.substr(0, ids.length-1)+"/";
+	multiedit.href="<?=$C["path"]?>/editplans/"+ids.substr(0, ids.length-1)+"/";
 }
 </script>
 <div class="container">
@@ -239,11 +251,25 @@ function filter(){
 				<?php
 				}
 				?>
+				<label><input type="checkbox" id="multi" value="<?=$plan['id']?>" onchange="multiaction()">多筆</label>
 				</td>
 			</tr>
 			<?php
 			}
 			?>
+			<tr>
+				<td colspan="4"></td>
+				<td>
+					<a class="btn btn-sm btn-success" id="multiview" href="<?=$C["path"]?>/plan//" role="button" target="_blank"><i class="fa fa-eye" aria-hidden="true"></i> 多筆查看</a>
+					<?php
+					if ($admin) {
+					?>
+					<a class="btn btn-sm btn-primary" id="multiedit" href="<?=$C["path"]?>/editplans//" role="button" target="_blank"><i class="fa fa-pencil" aria-hidden="true"></i> 多筆編輯</a>
+					<?php
+					}
+					?>
+				</td>
+			</tr>
 			</tbody>
 		</table>
 	</div>
