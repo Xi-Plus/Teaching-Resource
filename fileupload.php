@@ -54,27 +54,43 @@ if (!$U["islogin"]) {
 				$sth->bindValue(":filename", $filename);
 				$sth->bindValue(":filehash", $filehash);
 				$sth->bindValue(":id", $fileid);
-				$sth->execute();
-				move_uploaded_file($_FILES["file"]["tmp_name"][$i], "file/".$filename);
+				$res1 = $sth->execute();
+				$res2 = move_uploaded_file($_FILES["file"]["tmp_name"][$i], "file/".$filename);
+				if ($res1 && $res2) {
 				?>
 				<div class="alert alert-success alert-dismissible" role="alert">
-				  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-				  <?=$_FILES['file']['name'][$i]?> (<?=htmlentities($realname)?>) 上傳成功，<a href="<?=$C["path"]?>/file/<?=$fileid?>/" target="_blank">查看</a>、<a href="<?=$C["path"]?>/editfile/<?=$fileid?>/" target="_blank">編輯</a>
+					<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<?=$_FILES['file']['name'][$i]?> (<?=htmlentities($realname)?>) 上傳成功，<a href="<?=$C["path"]?>/file/<?=$fileid?>/" target="_blank">查看</a>、<a href="<?=$C["path"]?>/editfile/<?=$fileid?>/" target="_blank">編輯</a>
 				</div>
 				<?php
+				} else {
+				?>
+				<div class="alert alert-danger alert-dismissible" role="alert">
+					<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					上傳失敗，錯誤訊息：<?php
+					if ($res1 === false) {
+						echo " ".$sth->errorInfo()[2];
+					}
+					if ($res2 === false) {
+						echo " 移動檔案發生錯誤";
+					}
+					?>
+				</div>
+				<?php
+				}
 			} else {
 			?>
 			<div class="alert alert-warning alert-dismissible" role="alert">
-			  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-			  <?=$_FILES['file']['name'][$i]?> (<?=htmlentities($realname)?>) 已經上傳過了，<a href="<?=$C["path"]?>/file/<?=$file['id']?>/" target="_blank">查看</a>、<a href="<?=$C["path"]?>/editfile/<?=$file['id']?>/" target="_blank">編輯</a>
+				<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<?=$_FILES['file']['name'][$i]?> (<?=htmlentities($realname)?>) 已經上傳過了，<a href="<?=$C["path"]?>/file/<?=$file['id']?>/" target="_blank">查看</a>、<a href="<?=$C["path"]?>/editfile/<?=$file['id']?>/" target="_blank">編輯</a>
 			</div>
 			<?php
 			}
 		} else {
 		?>
 		<div class="alert alert-danger alert-dismissible" role="alert">
-		  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-		  <?=$_FILES['file']['name'][$i]?>(<?=$_POST['filename'][$i]?>)上傳失敗，錯誤代碼：<?=$_FILES["file"]["error"][$i]?>
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			<?=$_FILES['file']['name'][$i]?>(<?=$_POST['filename'][$i]?>)上傳失敗，錯誤代碼：<?=$_FILES["file"]["error"][$i]?>
 		</div>
 		<?php
 		}
@@ -89,7 +105,7 @@ if ($showform) {
 		<div id="filelist">
 			<div class="form-group" id="file1">
 				<label>選擇檔案: <input type="file" name="file[]" accept="audio/*, video/*, image/*, application/pdf, application/msword, application/vnd.ms-excel, application/vnd.ms-powerpoint, text/plain" onchange="getfilename(this)"></label>
-				<label>檔名: <input type="text" name="filename[]" size="30" pattern="<?=$C["FilenamePattern"]?>" title="<?=$C["FilenameTitle"]?>" ></label>
+				<label>檔名(不含副檔名): <input type="text" name="filename[]" size="30" pattern="<?=$C["FilenamePattern"]?>" title="<?=$C["FilenameTitle"]?>" ></label>
 			</div>
 		</div>
 		<button type="button" class="btn btn-default" onclick="morefile()"><i class="fa fa-file" aria-hidden="true"></i> 更多檔案</button>
