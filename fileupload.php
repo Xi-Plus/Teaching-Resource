@@ -109,8 +109,8 @@ if ($showform) {
 				<label>檔名(不含副檔名): <input type="text" name="filename[]" size="30" pattern="<?=$C["FilenamePattern"]?>" title="<?=$C["FilenameTitle"]?>" ></label>
 			</div>
 		</div>
-		<button type="button" class="btn btn-default" onclick="morefile()"><i class="fa fa-file" aria-hidden="true"></i> 更多檔案</button>
-		<button type="submit" class="btn btn-success"><i class="fa fa-upload" aria-hidden="true"></i> 上傳</button>
+		<button id="morefilebtn" type="button" class="btn btn-default" onclick="morefile()"><i class="fa fa-file" aria-hidden="true"></i> 更多檔案</button>
+		<button id="uploadbtn" type="submit" class="btn btn-success" onclick="upload()"><i class="fa fa-upload" aria-hidden="true"></i> <span id="uploadtext">上傳</span></button>
 	</form>
 </div>
 <script type="text/javascript">
@@ -127,6 +127,13 @@ if ($showform) {
 		temp.children[0].children[0].value="";
 		temp.children[1].children[0].value="";
 		filelist.appendChild(temp);
+	}
+	function upload(){
+		uploadtext.innerText = "上傳中...";
+		setTimeout(function(){
+			uploadbtn.disabled = true;
+			morefilebtn.disabled = true;
+		}, 100);
 	}
 </script>
 
