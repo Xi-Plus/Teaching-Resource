@@ -48,7 +48,6 @@ if ($showform) {
 		<table class="table">
 			<th>名稱</th>
 			<th>副檔名</th>
-			<th>MIME <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="bottom" title="上傳檢測 (PHP finfo class)"></i></th>
 			<th>檔案大小</th>
 			<th>動作</th>
 			<?php
@@ -57,7 +56,6 @@ if ($showform) {
 			<tr>
 				<td><?=htmlentities($file['name'])?></td>
 				<td><?=htmlentities($file['extension'])?></td>
-				<td><?=htmlentities($file['MIME2'])?></td>
 				<td style="white-space: nowrap"><?=FormateFileSize(filesize(__DIR__."/file/".$file['filename']))?></td>
 				<td>
 					<?php
