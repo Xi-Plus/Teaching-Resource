@@ -105,7 +105,7 @@ if ($showform) {
 	<form action="" method="post" enctype="multipart/form-data">
 		<div id="filelist">
 			<div class="form-group" id="file1">
-				<label>選擇檔案: <input type="file" name="file[]" accept="audio/*, video/*, image/*, application/pdf, application/msword, application/vnd.ms-excel, application/vnd.ms-powerpoint, text/plain" onchange="getfilename(this)"></label>
+				<label>選擇檔案: <input type="file" name="file[]" accept="<?=$C["Filetype"]?>" onchange="getfilename(this)"></label>
 				<label>檔名(不含副檔名): <input type="text" name="filename[]" size="30" pattern="<?=$C["FilenamePattern"]?>" title="<?=$C["FilenameTitle"]?>" ></label>
 			</div>
 		</div>
