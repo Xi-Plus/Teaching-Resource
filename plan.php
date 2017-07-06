@@ -2,6 +2,7 @@
 <?php
 require('config/config.php');
 require('func/plantype.php');
+require('func/filesize.php');
 $showform = true;
 $planids = explode(",", $_GET["ids"] ?? "");
 ?>
@@ -113,7 +114,7 @@ if ($showform) {
 							$sthfile->execute();
 							$D["file"][$file] = $sthfile->fetch(PDO::FETCH_ASSOC);
 							?>
-							<a href="<?=$C["path"]?>/file/<?=$file?>/"><?=htmlentities($D["file"][$file]["name"])?></a> <a class="btn btn-sm btn-primary" href="<?=$C["path"]?>/download/<?=$file?>/" role="button">下載</a><br>
+							<a href="<?=$C["path"]?>/file/<?=$file?>/"><?=htmlentities($D["file"][$file]["name"])?></a> <a class="btn btn-sm btn-primary" href="<?=$C["path"]?>/download/<?=$file?>/" role="button">下載</a> （<?=$D["file"][$file]['extension']?>、<?=FormateFileSize(filesize(__DIR__."/file/".$D["file"][$file]['filename']))?>）<br>
 							<?php
 						}
 					?></td><?php
