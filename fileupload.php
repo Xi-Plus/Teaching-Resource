@@ -101,6 +101,7 @@ if ($showform) {
 ?>
 <div class="container">
 	<h2>上傳檔案</h2>
+	單一檔案大小限制: <?php echo ini_get("upload_max_filesize");?>
 	<form action="" method="post" enctype="multipart/form-data">
 		<div id="filelist">
 			<div class="form-group" id="file1">
