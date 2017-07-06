@@ -9,7 +9,7 @@ $filepath = "file/".$file["filename"];
 if ($file !== false && file_exists($filepath)) {
 	header('Content-Description: File Transfer');
 	header('Content-Type: application/octet-stream');
-	header('Content-Disposition: attachment; filename="'.$file["name"].'"');
+	header('Content-Disposition: attachment; filename="'.$file["name"].".".$file["extension"].'"');
 	header('Expires: 0');
 	header('Cache-Control: must-revalidate');
 	header('Pragma: public');
