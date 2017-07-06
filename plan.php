@@ -114,7 +114,15 @@ if ($showform) {
 							$sthfile->execute();
 							$D["file"][$file] = $sthfile->fetch(PDO::FETCH_ASSOC);
 							?>
-							<a href="<?=$C["path"]?>/file/<?=$file?>/"><?=htmlentities($D["file"][$file]["name"])?></a> <a class="btn btn-sm btn-primary" href="<?=$C["path"]?>/download/<?=$file?>/" role="button">下載</a> （<?=$D["file"][$file]['extension']?>、<?=FormateFileSize(filesize(__DIR__."/file/".$D["file"][$file]['filename']))?>）<br>
+							<a href="<?=$C["path"]?>/file/<?=$file?>/"><?=htmlentities($D["file"][$file]["name"])?></a> <?php
+								if (file_exists("file/".$D["file"][$file]["filename"])) {
+									?>
+									<a class="btn btn-sm btn-primary" href="<?=$C["path"]?>/download/<?=$file?>/" role="button">下載</a> （<?=$D["file"][$file]['extension']?>、<?=FormateFileSize(filesize(__DIR__."/file/".$D["file"][$file]['filename']))?>）
+									<?php
+								} else {
+									echo "檔案遺失";
+								}				
+								?><br>
 							<?php
 						}
 					?></td><?php

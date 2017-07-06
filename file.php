@@ -69,7 +69,15 @@ if ($showform) {
 			</td></tr>
 			<tr><td><i class="fa fa-eye itemicon" aria-hidden="true"></i> 狀態</td><td><?=$G["inuse"][$file['inuse']]?></td></tr>
 			<tr><td><i class="fa fa-download itemicon" aria-hidden="true"></i> 下載</td><td>
+				<?php
+				if ($filelost) {
+					echo "檔案遺失";
+				} else {
+				?>
 				<a href="<?=$C["path"]?>/download/<?=$fileid?>/">下載</a> （檔案大小: <?php echo FormateFileSize(filesize(__DIR__."/file/".$file['filename'])); ?>）
+				<?php
+				}
+				?>
 			</td></tr>
 			<tr><td><i class="fa fa-link itemicon" aria-hidden="true"></i> 使用</td><td>
 				<?php

@@ -56,7 +56,13 @@ if ($showform) {
 			<tr>
 				<td><?=htmlentities($file['name'])?></td>
 				<td><?=htmlentities($file['extension'])?></td>
-				<td style="white-space: nowrap"><?=FormateFileSize(filesize(__DIR__."/file/".$file['filename']))?></td>
+				<td style="white-space: nowrap"><?php
+				if (file_exists("file/".$file["filename"])) {
+					echo FormateFileSize(filesize(__DIR__."/file/".$file['filename']));
+				} else {
+					echo "檔案遺失";
+				}				
+				?></td>
 				<td>
 					<?php
 					if ($pick) {
