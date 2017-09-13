@@ -16,8 +16,8 @@ CREATE TABLE `account` (
 CREATE TABLE `file` (
   `name` varchar(255) NOT NULL,
   `extension` varchar(30) NOT NULL,
-  `MIME2` varchar(30) NOT NULL,
-  `MIME` varchar(30) NOT NULL,
+  `MIME2` varchar(255) NOT NULL,
+  `MIME` varchar(255) NOT NULL,
   `filename` varchar(32) NOT NULL,
   `inuse` tinyint(1) NOT NULL DEFAULT '1',
   `filehash` varchar(32) NOT NULL,
@@ -35,6 +35,7 @@ CREATE TABLE `plan` (
   `type` tinyint(4) NOT NULL,
   `name` varchar(255) NOT NULL,
   `description` text NOT NULL,
+  `volume` varchar(255) DEFAULT '',
   `tag` json NOT NULL,
   `file` json NOT NULL,
   `inuse` tinyint(1) NOT NULL DEFAULT '1',

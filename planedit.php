@@ -53,9 +53,9 @@ if (!$U["islogin"]) {
 } else if ($action == "edit") {
 	if ($type == "add") {
 		$planid = substr(md5(uniqid(rand(),true)), 0, 8);
-		$sth = $G["db"]->prepare("INSERT INTO `plan` (`year`, `type`, `name`, `description`, `tag`, `file`, `inuse`, `id`) VALUES (:year, :type, :name, :description, :tag, :file, :inuse, :id)");
+		$sth = $G["db"]->prepare("INSERT INTO `plan` (`year`, `type`, `name`, `description`, `volume`, `tag`, `file`, `inuse`, `id`) VALUES (:year, :type, :name, :description, :volume, :tag, :file, :inuse, :id)");
 	} else if ($type == "edit") {
-		$sth = $G["db"]->prepare("UPDATE `plan` SET `year` = :year, type = :type, `name` = :name, `description` = :description, `tag` = :tag, `file` = :file, `inuse` = :inuse WHERE `id` = :id");
+		$sth = $G["db"]->prepare("UPDATE `plan` SET `year` = :year, type = :type, `name` = :name, `description` = :description, `volume` = :volume, `tag` = :tag, `file` = :file, `inuse` = :inuse WHERE `id` = :id");
 	}
 	$tag = $_POST["tag"] ?? array();
 	foreach ($_POST["newtag"] as $newtag) {
@@ -106,6 +106,7 @@ if (!$U["islogin"]) {
 		$sth->bindValue(":type", $_POST["type"]);
 		$sth->bindValue(":name", $_POST["name"]);
 		$sth->bindValue(":description", $_POST["description"]);
+		$sth->bindValue(":volume", $_POST["volume"]);
 		$sth->bindValue(":tag", json_encode($tag));
 		$sth->bindValue(":file", json_encode($file));
 		$sth->bindValue(":inuse", $_POST["inuse"]);
@@ -140,7 +141,7 @@ if (!$U["islogin"]) {
 	}
 }
 if ($showform && $type == "add") {
-	$D["plan"] = array("year"=>$G["schoolyear"], "type"=>"0", "name"=>"", "description"=>"", "tag"=>array(), "file"=>array(), "inuse"=>"1");
+	$D["plan"] = array("year"=>$G["schoolyear"], "type"=>"0", "name"=>"", "description"=>"", "volume"=>"", "tag"=>array(), "file"=>array(), "inuse"=>"1");
 } else if ($showform && $type == "edit") {
 	$sth = $G["db"]->prepare("SELECT * FROM `plan` WHERE `id` = :id");
 	$sth->bindValue(":id", $planid);
@@ -203,6 +204,12 @@ if ($showform) {
 			</div>
 		</div>
 		<div class="row">
+			<label class="col-sm-3 col-md-2 form-control-label"><i class="fa fa-header itemicon" aria-hidden="true"></i> 冊別</label>
+			<div class="col-sm-9 col-md-10">
+				<input class="form-control" type="text" name="volume" value="<?=$D["plan"]["volume"]?>" required>
+			</div>
+		</div>
+		<div class="row">
 			<label class="col-sm-3 col-md-2 form-control-label"><i class="fa fa-tags itemicon" aria-hidden="true"></i> 標籤</label>
 			<div class="col-sm-9 col-md-10">
 				<div class="checkbox">
@@ -212,9 +219,9 @@ if ($showform) {
 					}
 					?>
 					<div id="taglist">
-						<input type="text" name="newtag[]" placeholder="新標籤" maxlength="15">
+						<input type="text" name="newtag[]" placeholder="新增" maxlength="15">
 					</div>
-					<button type="button" class="btn btn-default btn-sm" onclick="moretag()"><i class="fa fa-tag" aria-hidden="true"></i> 更多標籤</button>
+					<button type="button" class="btn btn-default btn-sm" onclick="moretag()"><i class="fa fa-tag" aria-hidden="true"></i> 更多</button>
 				</div>
 			</div>
 		</div>

@@ -93,6 +93,13 @@ if ($showform) {
 				}
 				?>
 			</tr>
+			<tr><td><i class="fa fa-header itemicon" aria-hidden="true"></i> 冊別</td>
+				<?php
+				foreach ($D["plan"] as $plan) {
+					?><td><?=htmlentities($plan['volume'])?></td><?php
+				}
+				?>
+			</tr>
 			<tr><td><i class="fa fa-tags itemicon" aria-hidden="true"></i> 標籤</td>
 				<?php
 				foreach ($D["plan"] as $plan) {

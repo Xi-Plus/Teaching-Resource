@@ -144,7 +144,7 @@ if ($showform && $action == "edit") {
 			?>
 			<div class="alert alert-info alert-dismissible" role="alert">
 				<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-				已修改標籤 <?=$D["plan"][$planid]["name"]?>
+				已修改冊別 <?=$D["plan"][$planid]["name"]?>
 			</div>
 			<?php
 		}
@@ -153,7 +153,7 @@ if ($showform && $action == "edit") {
 		?>
 		<div class="alert alert-success alert-dismissible" role="alert">
 			<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-			已為所有教案加上這些標籤：<?=implode("、", $addtag)?>
+			已為所有教案加上這些冊別：<?=implode("、", $addtag)?>
 		</div>
 		<?php
 	}
@@ -161,7 +161,7 @@ if ($showform && $action == "edit") {
 		?>
 		<div class="alert alert-success alert-dismissible" role="alert">
 			<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-			已從所有教案移除這些標籤：<?=implode("、", $deltag)?>
+			已從所有教案移除這些冊別：<?=implode("、", $deltag)?>
 		</div>
 		<?php
 	}
@@ -330,14 +330,15 @@ if ($showform) {
 						<label class="form-control-label"><input type="radio" name="tag[<?=$tag?>]" value="-1" checked> 不修改</label>
 						<label class="form-control-label"><input type="radio" name="tag[<?=$tag?>]" value="1"> 加上</label>
 						<label class="form-control-label"><input type="radio" name="tag[<?=$tag?>]" value="0"> 移除</label>
-						<mark><?=htmlentities($tag)?> (<?=$cnt?>)</mark><br>
+						<mark><?=htmlentities($tag)?> (<?=$cnt?>)</mark>
+						<br>
 						<?php
 					}
 					?>
 					<div id="taglist">
-						<input type="text" name="newtag[]" placeholder="新標籤" maxlength="15">
+						<input type="text" name="newtag[]" placeholder="新增" maxlength="15">
 					</div>
-					<button type="button" class="btn btn-default btn-sm" onclick="moretag()"><i class="fa fa-tag" aria-hidden="true"></i> 更多標籤</button>
+					<button type="button" class="btn btn-default btn-sm" onclick="moretag()"><i class="fa fa-tag" aria-hidden="true"></i> 更多</button>
 				</div>
 			</div>
 		</div>
@@ -352,6 +353,7 @@ if ($showform) {
 						<label class="form-control-label"><input type="radio" name="file[<?=$file?>]" value="1"> 加上</label>
 						<label class="form-control-label"><input type="radio" name="file[<?=$file?>]" value="0"> 移除</label>
 						<a href="<?=$C["path"]?>/file/<?=$file?>/" target="_blank"><?=htmlentities($D["file"][$file]["name"])?></a>
+						<br>
 						<?php
 					}
 					?>

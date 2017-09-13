@@ -212,7 +212,7 @@ function multiaction(){
 				?>
 				<br>
 				<label class="checkbox-inline" onchange="filter()" data-toggle="tooltip" data-placement="bottom" title="僅在OR模式作用">
-					<input type="checkbox" id="filter_notag" checked>無標籤
+					<input type="checkbox" id="filter_notag" checked>無指定標籤
 				</label>
 				<label class="checkbox-inline" data-toggle="tooltip" data-placement="bottom" title="同時包含這些標籤">
 					<input type="radio" name="tagandor" id="tagand" value="and" onchange="changeandor();filter();">AND
@@ -231,6 +231,7 @@ function multiaction(){
 				<th>學年度</th>
 				<th>分類</th>
 				<th>標題</th>
+				<th>冊別</th>
 				<th>標籤</th>
 				<th>動作</th>
 			</thead>
@@ -242,6 +243,7 @@ function multiaction(){
 				<td><?=$plan['year']?></td>
 				<td><?=$D['plantype'][$plan['type']]?></td>
 				<td><?=htmlentities($plan['name'])?></td>
+				<td><?=htmlentities($plan['volume'])?></td>
 				<td><?php
 					$plan['tag'] = json_decode($plan['tag'], true);
 					foreach ($plan['tag'] as $key => $tag) {
@@ -264,7 +266,7 @@ function multiaction(){
 			}
 			?>
 			<tr>
-				<td colspan="4"></td>
+				<td colspan="5"></td>
 				<td>
 					<a class="btn btn-sm btn-success disabled" id="multiview" href="<?=$C["path"]?>/plan//" role="button" target="_blank"><i class="fa fa-eye" aria-hidden="true"></i> 多筆查看</a>
 					<?php
