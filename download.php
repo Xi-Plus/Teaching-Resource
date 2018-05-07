@@ -13,6 +13,7 @@ if ($file !== false && file_exists($filepath)) {
 	header('Expires: 0');
 	header('Cache-Control: must-revalidate');
 	header('Pragma: public');
+	header('X-Robots-Tag: noindex');
 	header('Content-Length: '.filesize($filepath));
 	readfile($filepath);
 	exit;
@@ -23,6 +24,7 @@ if ($file !== false && file_exists($filepath)) {
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
 <title><?=$C["titlename"]?>/下載檔案</title>
 
