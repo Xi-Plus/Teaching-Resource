@@ -158,13 +158,19 @@ function multiaction(){
 	}
 	if (ids.length == 0) {
 		multiview.classList.add("disabled");
-		multiedit.classList.add("disabled");
+		if (window.multiedit !== undefined) {
+			multiedit.classList.add("disabled");
+		}
 	} else {
 		multiview.classList.remove("disabled");
-		multiedit.classList.remove("disabled");
+		if (window.multiedit !== undefined) {
+			multiedit.classList.remove("disabled");
+		}
 	}
 	multiview.href = "<?=$C["path"]?>/plan/"+ids.join(",")+"/";
-	multiedit.href = "<?=$C["path"]?>/editplans/"+ids.join(",")+"/";
+	if (window.multiedit !== undefined) {
+		multiedit.href = "<?=$C["path"]?>/editplans/"+ids.join(",")+"/";
+	}
 }
 </script>
 <div class="container">
