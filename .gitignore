@@ -1,2 +1,4 @@
 config/config.php
+config/csrf_config.php
 file/
+vendor/

@@ -1,5 +1,7 @@
 <!DOCTYPE html>
 <?php
+require_once __DIR__ . '/vendor/owasp/csrf-protector-php/libs/csrf/csrfprotector.php';
+csrfProtector::init();
 require('config/config.php');
 $showform = true;
 $fileid = $_GET["id"] ?? "";

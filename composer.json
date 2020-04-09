@@ -1,0 +1,5 @@
+{
+    "require": {
+        "owasp/csrf-protector-php": "^1.0"
+    }
+}
