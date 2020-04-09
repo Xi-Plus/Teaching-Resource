@@ -29,3 +29,4 @@ RewriteRule ^logout/?$ login.php?action=logout [PT,L]
 RedirectMatch 404 /\.git
 
 Header set X-Frame-Options "sameorigin"
+Header set Content-Security-Policy "default-src 'self' 'unsafe-inline' 'unsafe-eval' data: maxcdn.bootstrapcdn.com use.fontawesome.com cdn.fontawesome.com code.jquery.com cdnjs.cloudflare.com"
