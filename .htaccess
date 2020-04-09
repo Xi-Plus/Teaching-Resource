@@ -25,3 +25,5 @@ RewriteRule ^pickfile/?$ files.php?admin&pick [PT,L]
 RewriteRule ^account/?$ account.php [PT,L]
 RewriteRule ^login/?$ login.php?action=login [PT,L]
 RewriteRule ^logout/?$ login.php?action=logout [PT,L]
+
+RedirectMatch 404 /\.git
