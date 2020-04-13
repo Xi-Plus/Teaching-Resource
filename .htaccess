@@ -30,6 +30,7 @@ RewriteRule ^csrfprotector\.js$ vendor/owasp/csrf-protector-php/js/csrfprotector
 
 RewriteRule ^.git/(.*)?$ - [F,L]
 RewriteRule ^composer\.(lock|json)$ - [F,L]
+RewriteRule ^log/(.*)?$ - [F,L]
 RewriteCond %{REQUEST_URI} !.js$ [NC]
 RewriteRule ^vendor/(.*)?$ - [F,L]
 
