@@ -21,9 +21,9 @@ body {
 </head>
 <body>
 <?php
-
+$action = $_GET['action'] ?? '';
 $showform = true;
-if ($_GET["action"] === "login") {
+if ($action === "login") {
 	if ($U["islogin"]) {
 		?>
 		<div class="alert alert-info alert-dismissible" role="alert">
@@ -62,7 +62,7 @@ if ($_GET["action"] === "login") {
 			<?php
 		}
 	}
-} else if ($_GET["action"] === "logout") {
+} else if ($action === "logout") {
 	if ($U["islogin"]) {
 		$sth = $G["db"]->prepare('DELETE FROM `login_session` WHERE `cookie` = :cookie');
 		$sth->bindValue(":cookie", $_COOKIE[$C["cookiename"]]);
