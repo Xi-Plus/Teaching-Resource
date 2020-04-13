@@ -26,8 +26,11 @@ RewriteRule ^account/?$ account.php [PT,L]
 RewriteRule ^login/?$ login.php?action=login [PT,L]
 RewriteRule ^logout/?$ login.php?action=logout [PT,L]
 
+RewriteRule ^csrfprotector\.js$ vendor/owasp/csrf-protector-php/js/csrfprotector.js [PT,L]
+
 RewriteRule ^.git/(.*)?$ - [F,L]
 RewriteRule ^composer\.(lock|json)$ - [F,L]
+RewriteCond %{REQUEST_URI} !.js$ [NC]
 RewriteRule ^vendor/(.*)?$ - [F,L]
 
 Header set X-Frame-Options "sameorigin"
