@@ -127,8 +127,8 @@ function filter(){
 	}
 	for (var i = 0; i < plantablelen; i++) {
 		var tagtemp = [];
-		for (var j = 0; j < plantable.children[i].children[3].children.length; j++) {
-			tagtemp.push(plantable.children[i].children[3].children[j].innerText);
+		for (var j = 0; j < plantable.children[i].children[4].children.length; j++) {
+			tagtemp.push(plantable.children[i].children[4].children[j].innerText);
 		}
 		var show;
 		if (tagtemp.length == 0 && tagno) {
@@ -214,7 +214,23 @@ function multiaction(){
 			<div class="checkbox">
 				<?php
 				require('func/tag.php');
-				foreach ($D['tag'] as $tag => $cnt) {
+				// 重大議題
+				foreach ($D['tagNoImportant'] as $tag => $cnt) {
+					?><label class="checkbox-inline" onchange="filter()">
+						<input type="checkbox" id="filter_tag" value="<?=htmlentities($tag)?>" checked><mark><?=htmlentities($tag)?></mark>
+					</label> <?php
+				}
+				?>
+			</div>
+		</div>
+	</div>
+    <!-- 重大議題 start -->
+    <div class="row">
+		<label class="col-sm-3 col-md-2 form-control-label"><i class="fa fa-tags filtericon" aria-hidden="true"></i> 重大議題</label>
+		<div class="col-sm-9 col-md-10">
+			<div class="checkbox">
+				<?php
+				foreach ($D['tagImportant'] as $tag) {
 					?><label class="checkbox-inline" onchange="filter()">
 						<input type="checkbox" id="filter_tag" value="<?=htmlentities($tag)?>" checked><mark><?=htmlentities($tag)?></mark>
 					</label> <?php
@@ -235,6 +251,7 @@ function multiaction(){
 			</div>
 		</div>
 	</div>
+    <!-- 重大議題 end -->
 	<div class="table-responsive">
 		<table class="table">
 			<thead>
