@@ -214,36 +214,22 @@ function multiaction(){
 			<div class="checkbox">
 				<?php
 				require('func/tag.php');
-                // 重大議題更新code
+				// 重大議題
 				foreach ($D['tagNoImportant'] as $tag => $cnt) {
 					?><label class="checkbox-inline" onchange="filter()">
 						<input type="checkbox" id="filter_tag" value="<?=htmlentities($tag)?>" checked><mark><?=htmlentities($tag)?></mark>
 					</label> <?php
 				}
-                // 重大議題更新code
 				?>
-				<br>
-				<!-- <label class="checkbox-inline" onchange="filter()" data-toggle="tooltip" data-placement="bottom" title="僅在OR模式作用">
-					<input type="checkbox" id="filter_notag" checked>無指定標籤
-				</label>
-				<label class="checkbox-inline" data-toggle="tooltip" data-placement="bottom" title="同時包含這些標籤">
-					<input type="radio" name="tagandor" id="tagand" value="and" onchange="changeandor();filter();">AND
-				</label>
-				<label class="checkbox-inline" data-toggle="tooltip" data-placement="bottom" title="包含任一標籤">
-					<input type="radio" name="tagandor" id="tagor" value="or" checked onchange="changeandor();filter();">OR
-				</label>
-				<button type="button" class="btn btn-default btn-sm" onclick="alltag();filter();">全選</button>
-				<button type="button" class="btn btn-default btn-sm" onclick="notag();filter();">全不選</button> -->
 			</div>
 		</div>
 	</div>
-    <!-- 重大議題更新code -->
+    <!-- 重大議題 start -->
     <div class="row">
 		<label class="col-sm-3 col-md-2 form-control-label"><i class="fa fa-tags filtericon" aria-hidden="true"></i> 重大議題</label>
 		<div class="col-sm-9 col-md-10">
 			<div class="checkbox">
 				<?php
-				// require('func/tag.php');
 				foreach ($D['tagImportant'] as $tag) {
 					?><label class="checkbox-inline" onchange="filter()">
 						<input type="checkbox" id="filter_tag" value="<?=htmlentities($tag)?>" checked><mark><?=htmlentities($tag)?></mark>
@@ -251,7 +237,7 @@ function multiaction(){
 				}
 				?>
 				<br>
-                <label class="checkbox-inline" onchange="filter()" data-toggle="tooltip" data-placement="bottom" title="僅在OR模式作用">
+				<label class="checkbox-inline" onchange="filter()" data-toggle="tooltip" data-placement="bottom" title="僅在OR模式作用">
 					<input type="checkbox" id="filter_notag" checked>無指定標籤
 				</label>
 				<label class="checkbox-inline" data-toggle="tooltip" data-placement="bottom" title="同時包含這些標籤">
@@ -264,11 +250,8 @@ function multiaction(){
 				<button type="button" class="btn btn-default btn-sm" onclick="notag();filter();">全不選</button>
 			</div>
 		</div>
-        <?php
-            print_r($D['tagImportant']);
-        ?>
 	</div>
-    <!-- 重大議題更新code -->
+    <!-- 重大議題 end -->
 	<div class="table-responsive">
 		<table class="table">
 			<thead>
